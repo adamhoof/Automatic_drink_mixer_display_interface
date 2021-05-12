@@ -20,4 +20,5 @@ uint8_t* SerialCommunicationHandler::gatherDisplayInputData()
     Ard_Display_Serial.readBytes(inputDataBuffer, bufferLength);
     return inputDataBuffer;
   }
+  return nullptr;
 }

@@ -1,10 +1,9 @@
-#include <Arduino.h>
+#include "DrinkContentsModifier.h"
 #include "SerialCommunicationHandler.h"
-#include "DrinkStateController.h"
-
+#include <Arduino.h>
 
 SerialCommunicationHandler serialCommunicationHandler;
-DrinkStateController drinkContentModifier;
+DrinkContentsModifier drinkContentModifier;
 
 void setup()
 {
@@ -13,5 +12,6 @@ void setup()
 
 void loop()
 {
-  drinkContentModifier.modifyState(serialCommunicationHandler.gatherDisplayInputData());
+  drinkContentModifier.modifyContents(serialCommunicationHandler.gatherDisplayInputData());
+  Serial.println(drinkContentModifier.drinkContents, BIN);
 }
