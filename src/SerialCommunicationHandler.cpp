@@ -10,14 +10,14 @@ void SerialCommunicationHandler::setup() const
   Ard_Display_Serial.begin(baudRate);
 }
 
-void SerialCommunicationHandler::gatherDisplayInputData()
+uint8_t* SerialCommunicationHandler::gatherDisplayInputData()
 {
   const uint8_t bufferLength = 2;
-  uint8_t inputDataBuffer[bufferLength];
-  if (Ard_Display_Serial.available()){
-    Ard_Display_Serial.readBytes(inputDataBuffer, bufferLength);
+  static uint8_t inputDataBuffer[bufferLength];
 
-    Serial.println(inputDataBuffer[0]);
-    Serial.println(inputDataBuffer[1]);
+  if (Ard_Display_Serial.available()){
+
+    Ard_Display_Serial.readBytes(inputDataBuffer, bufferLength);
+    return inputDataBuffer;
   }
 }

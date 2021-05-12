@@ -25,6 +25,10 @@ void DrinkStateController::modifyState(const uint8_t valueToModify [2])
     bitWrite(drinkContents, 0, valueToModify[1]);
     break;
 
+  case 4:
+    bitWrite(drinkContents, 4, valueToModify[1]);
+    break;
+
   default:
     break;
   }

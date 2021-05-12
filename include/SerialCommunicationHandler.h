@@ -12,5 +12,5 @@ public:
 
   void setup() const;
 
-  void gatherDisplayInputData();
+  uint8_t* gatherDisplayInputData();
 };
