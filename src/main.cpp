@@ -8,10 +8,12 @@ DrinkContentsModifier drinkContentModifier;
 void setup()
 {
   serialCommunicationHandler.setup();
+  drinkContentModifier.setElementIds(serialCommunicationHandler.getElementIds());
 }
 
 void loop()
 {
-  drinkContentModifier.modifyContents(serialCommunicationHandler.gatherDisplayInputData());
+  drinkContentModifier.modifyContents(
+      serialCommunicationHandler.getDrinkContentsData());
   Serial.println(drinkContentModifier.drinkContents, BIN);
 }
