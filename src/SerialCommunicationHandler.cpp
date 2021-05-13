@@ -10,7 +10,7 @@ void SerialCommunicationHandler::setup() const
   Ard_Display_Serial.begin(baudRate);
 }
 
-uint8_t* SerialCommunicationHandler::getDrinkContentsData()
+uint8_t* SerialCommunicationHandler::getDrinkContents()
 {
   static uint8_t dataBuffer[contentsBuffLen];
 

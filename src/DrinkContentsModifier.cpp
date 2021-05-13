@@ -2,12 +2,12 @@
 #include "SerialCommunicationHandler.h"
 
 DrinkContentsModifier::DrinkContentsModifier()
-    : drinkContents(B10000000), elementIds {}//for 16bit storage, can use 32768 as initial value - MSB of uint16_t set to 1 (only for nice bit reading in BIN, shows all the digits, not necessary)
+    : drinkContents(B10000000),
+      elementIds {}//for 16bit storage, can use 32768 as initial value - MSB of uint16_t set to 1 (only for nice bit reading in BIN, shows all the digits, not necessary)
 {}
 
 void DrinkContentsModifier::modifyContents(const uint8_t *valueToModify)
 {
-
   if (valueToModify [0] == elementIds [0]) {
 
     bitWrite(drinkContents, 0, valueToModify[1]);
@@ -28,15 +28,6 @@ void DrinkContentsModifier::modifyContents(const uint8_t *valueToModify)
 
     bitWrite(drinkContents, 4, valueToModify[1]);
   }
-  /*} else if (valueToModify [0] == elementIds [5]) {
-
-    bitWrite(drinkContents, 5, valueToModify[1]);
-
-  } else if (valueToModify [0] == elementIds [1]) {
-
-    bitWrite(drinkContents, 6, valueToModify[1]);
-
-  }*/
 }
 
 void DrinkContentsModifier::setElementIds(const uint8_t *receivedElemIds)

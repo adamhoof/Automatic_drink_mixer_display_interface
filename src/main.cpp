@@ -14,6 +14,6 @@ void setup()
 void loop()
 {
   drinkContentModifier.modifyContents(
-      serialCommunicationHandler.getDrinkContentsData());
+      serialCommunicationHandler.getDrinkContents());
   Serial.println(drinkContentModifier.drinkContents, BIN);
 }
