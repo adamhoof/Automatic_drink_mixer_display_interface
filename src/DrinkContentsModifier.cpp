@@ -1,5 +1,4 @@
 #include "DrinkContentsModifier.h"
-#include "SerialCommunicationHandler.h"
 
 DrinkContentsModifier::DrinkContentsModifier()
     : drinkContents(B10000000),
@@ -27,12 +26,21 @@ void DrinkContentsModifier::modifyContents(const uint8_t *valueToModify)
   } else if (valueToModify [0] == elementIds [4]) {
 
     bitWrite(drinkContents, 4, valueToModify[1]);
+
+  } else if (valueToModify [0] == elementIds [5]) {
+
+    drinkContents = B10000000;
+
+  } else if (valueToModify [0] == elementIds [6]) {
+
+    //get the drink ready
+    Serial.println("make the drink");
   }
 }
 
 void DrinkContentsModifier::setElementIds(const uint8_t *receivedElemIds)
 {
-  for (int i = 0; i < ElemIdBuffLen; ++i) {
+  for (int i = 0; i < elemIdBuffLen; ++i) {
     elementIds[i] = receivedElemIds[i];
   }
 }

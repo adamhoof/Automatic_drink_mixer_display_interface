@@ -30,11 +30,11 @@ uint8_t* SerialCommunicationHandler::getElementIds()
   Ard_Display_Serial.write(0xFF);
   delay(10);
 
-  static uint8_t dataBuffer[ElemIdBuffLen];
+  static uint8_t dataBuffer[elemIdBuffLen];
 
   if (Ard_Display_Serial.available()){
 
-    Ard_Display_Serial.readBytes(dataBuffer, ElemIdBuffLen);
+    Ard_Display_Serial.readBytes(dataBuffer, elemIdBuffLen);
     return dataBuffer;
   }
   return nullptr;

@@ -1,11 +1,12 @@
 #pragma once
 
 #include <Arduino.h>
+#include "SerialCommunicationHandler.h"
 
 class DrinkContentsModifier {
 public:
   uint8_t drinkContents;
-  uint8_t elementIds[5];
+  uint8_t elementIds[elemIdBuffLen];
 public:
   DrinkContentsModifier();
 

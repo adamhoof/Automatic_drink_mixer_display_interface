@@ -4,7 +4,7 @@
 #include <SoftwareSerial.h>
 
 #define contentsBuffLen 2
-#define ElemIdBuffLen 5
+#define elemIdBuffLen 7
 
 class SerialCommunicationHandler
 {
