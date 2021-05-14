@@ -14,28 +14,34 @@ uint8_t* SerialCommunicationHandler::getDrinkContents()
 {
   static uint8_t dataBuffer[contentsBuffLen];
 
-  if (Ard_Display_Serial.available()){
+  if (!Ard_Display_Serial.available()){
 
-    Ard_Display_Serial.readBytes(dataBuffer, contentsBuffLen);
-    return dataBuffer;
+    return nullptr;
   }
-  return nullptr;
+
+  Ard_Display_Serial.readBytes(dataBuffer, contentsBuffLen);
+  return dataBuffer;
 }
 
 uint8_t* SerialCommunicationHandler::getElementIds()
 {
   Ard_Display_Serial.print("page 2");
-  Ard_Display_Serial.write(0xFF);
-  Ard_Display_Serial.write(0xFF);
-  Ard_Display_Serial.write(0xFF);
+
+  for (int i = 0; i < 3 ; ++i) {
+
+    Ard_Display_Serial.write(0xFF);
+  }
   delay(10);
 
   static uint8_t dataBuffer[elemIdBuffLen];
 
-  if (Ard_Display_Serial.available()){
+  if (!Ard_Display_Serial.available()){
 
-    Ard_Display_Serial.readBytes(dataBuffer, elemIdBuffLen);
-    return dataBuffer;
+    return nullptr;
   }
-  return nullptr;
+
+  Ard_Display_Serial.readBytes(dataBuffer, elemIdBuffLen);
+  return dataBuffer;
 }
+
+

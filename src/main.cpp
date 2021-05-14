@@ -13,7 +13,6 @@ void setup()
 
 void loop()
 {
-  drinkContentModifier.modifyContents(
-      serialCommunicationHandler.getDrinkContents());
-  Serial.println(drinkContentModifier.m_drinkContents, BIN);
+    drinkContentModifier.modifyContents(serialCommunicationHandler.getDrinkContents());
+    Serial.println(drinkContentModifier.m_drinkContents, BIN);
 }
