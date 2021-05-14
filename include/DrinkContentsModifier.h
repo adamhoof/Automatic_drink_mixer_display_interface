@@ -5,8 +5,8 @@
 
 class DrinkContentsModifier {
 public:
-  uint8_t drinkContents;
-  uint8_t elementIds[elemIdBuffLen];
+  uint8_t m_drinkContents;
+  uint8_t m_elementIds[elemIdBuffLen];
 public:
   DrinkContentsModifier();
 
