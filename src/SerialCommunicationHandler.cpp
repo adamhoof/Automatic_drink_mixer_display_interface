@@ -6,8 +6,8 @@ SerialCommunicationHandler::SerialCommunicationHandler() = default;
 
 void SerialCommunicationHandler::setup() const
 {
-  Serial.begin(baudRate);
-  Ard_Display_Serial.begin(baudRate);
+  Serial.begin(m_baudRate);
+  Ard_Display_Serial.begin(m_baudRate);
 }
 
 uint8_t* SerialCommunicationHandler::getDrinkContents()
