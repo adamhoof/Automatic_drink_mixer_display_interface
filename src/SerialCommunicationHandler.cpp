@@ -4,19 +4,19 @@ SoftwareSerial Ard_Display_Serial(2,3);
 
 SerialCommunicationHandler::SerialCommunicationHandler() = default;
 
-void SerialCommunicationHandler::setup() const
+void SerialCommunicationHandler::setup() const //request communication on demand
 {
-  Serial.begin(m_baudRate);
-  Ard_Display_Serial.begin(m_baudRate);
+  Serial.begin(baudRate);
+  Ard_Display_Serial.begin(baudRate);
 }
 
-uint8_t* SerialCommunicationHandler::getDrinkContents()
+uint8_t* SerialCommunicationHandler::getDrinkContentChanges()
 {
   static uint8_t dataBuffer[contentsBuffLen];
 
   if (!Ard_Display_Serial.available()){
 
-    return nullptr;
+    return nullptr; //return dataBuffer
   }
 
   Ard_Display_Serial.readBytes(dataBuffer, contentsBuffLen);
@@ -37,7 +37,7 @@ uint8_t* SerialCommunicationHandler::getElementIds()
 
   if (!Ard_Display_Serial.available()){
 
-    return nullptr;
+    return nullptr; //return dataBuffer
   }
 
   Ard_Display_Serial.readBytes(dataBuffer, elemIdBuffLen);

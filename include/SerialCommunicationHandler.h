@@ -9,13 +9,13 @@
 class SerialCommunicationHandler
 {
 private:
-  const int m_baudRate = 9600;
+  const int baudRate = 9600;
 public:
   SerialCommunicationHandler();
 
   void setup() const;
 
-  uint8_t*getDrinkContents();
+  uint8_t*getDrinkContentChanges();
 
   uint8_t*getElementIds();
 };
