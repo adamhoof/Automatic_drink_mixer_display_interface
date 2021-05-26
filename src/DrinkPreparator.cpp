@@ -1,12 +1,12 @@
 #include "DrinkPreparator.h"
 
-DrinkPreparator::ElementIds elementIds;
+DrinkPreparator::ElementIds elementIds{};
 
 DrinkPreparator::DrinkPreparator()
-    : drinkContents(B10000000)//for 16bit storage, can use 32768 as initial value - MSB of uint16_t set to 1 (only for nice bit reading in BIN, shows all the digits anytime, not necessary)
+    : drinkContents(B10000000)
 {}
 
-void DrinkPreparator::modifyContents(const uint8_t *receivedIdAndValue)
+void DrinkPreparator::modifyContents(const uint8_t* receivedIdAndValue)
 {
   if (receivedIdAndValue[0] == elementIds.idA) {
 
@@ -35,12 +35,10 @@ void DrinkPreparator::modifyContents(const uint8_t *receivedIdAndValue)
   } else if (receivedIdAndValue[0] == elementIds.idMakeDrinkButton) {
 
     bitWrite(drinkContents, 6, 1);
-    Serial.println("atleast");
-    delay(1000);
   }
 }
 
-void DrinkPreparator::setElementIds(const uint8_t *receivedElemIds)
+void DrinkPreparator::setElementIds(const uint8_t* receivedElemIds)
 {
   elementIds.idA = receivedElemIds[0];
   elementIds.idB = receivedElemIds[1];
@@ -49,5 +47,4 @@ void DrinkPreparator::setElementIds(const uint8_t *receivedElemIds)
   elementIds.idWater = receivedElemIds[4];
   elementIds.idCancelButton = receivedElemIds[5];
   elementIds.idMakeDrinkButton = receivedElemIds[6];
-
 }

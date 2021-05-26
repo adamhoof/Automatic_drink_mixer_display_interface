@@ -44,4 +44,12 @@ uint8_t* SerialCommunicationHandler::getElementIds()
   return dataBuffer;
 }
 
+void SerialCommunicationHandler::updateDisplayProgressBar()
+{
+  Ard_Display_Serial.print("progressBar.val+=1");
+  for (int i = 0; i < 3 ; ++i) {
 
+    Ard_Display_Serial.write(0xFF);
+  }
+  delay(10);
+}

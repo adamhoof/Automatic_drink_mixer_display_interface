@@ -15,7 +15,9 @@ public:
 
   void setup() const;
 
-  uint8_t*getDrinkContentChanges();
+  uint8_t* getDrinkContentChanges();
 
-  uint8_t*getElementIds();
+  uint8_t* getElementIds();
+
+  static void updateDisplayProgressBar();
 };

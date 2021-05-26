@@ -3,17 +3,23 @@
 #include <Arduino.h>
 
 SerialCommunicationHandler serialCommunicationHandler;
-DrinkPreparator drinkContentModifier;
+DrinkPreparator drinkPreparator;
 
 void setup()
 {
   serialCommunicationHandler.setup();
-  drinkContentModifier.setElementIds(serialCommunicationHandler.getElementIds());
+  drinkPreparator.setElementIds(serialCommunicationHandler.getElementIds());
 }
 
 void loop()
 {
-    drinkContentModifier.modifyContents(
-      serialCommunicationHandler.getDrinkContentChanges());
-    Serial.println(drinkContentModifier.drinkContents, BIN);
+  while (!bitRead(drinkPreparator.drinkContents, 6)){
+
+    drinkPreparator.modifyContents(
+        serialCommunicationHandler.getDrinkContentChanges());
+    Serial.println(drinkPreparator.drinkContents, BIN);
+  }
+
+  SerialCommunicationHandler::updateDisplayProgressBar();
+  delay(200);
 }
