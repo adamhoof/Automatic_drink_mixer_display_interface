@@ -8,7 +8,7 @@ CartController cartController{};
 void setup()
 {
     cartController.setup();
-    cartController.moveToPos(initPos);
+    cartController.calibrate();
 }
 
 void loop()

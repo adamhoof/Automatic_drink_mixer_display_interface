@@ -4,12 +4,12 @@
 
 #define forward true
 #define backward false
-#define initPos 0
-#define aPos 1
-#define bPos 2
-#define cPos 3
-#define dPos 4
 
+const int32_t initPos{0};
+const int32_t aPos{16000};
+const int32_t bPos{37500};
+const int32_t cPos{59000};
+const int32_t dPos{83000};
 
 class CartController {
 public:
@@ -17,13 +17,13 @@ public:
     const uint8_t dirPin{A3};
     const uint8_t stepPin{A4};
     const uint8_t endSwitchPin{7};
-    const int32_t stationPositions [5]{0, 16000, 37500, 59000, 83000};
     int8_t currentDir{0};
-    int32_t cartPos{0};
+    int32_t cartPos{1};
 
     CartController();
     void setup();
+    void calibrate();
     void setDir(bool dir);
-    void step();
-    void moveToPos(int8_t pos);
+    void step(uint8_t speed);
+    void moveToPos(int32_t targetPos);
 };
