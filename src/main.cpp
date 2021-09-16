@@ -1,25 +1,26 @@
+#include <Arduino.h>
 #include "DrinkPreparator.h"
 #include "SerialCommunicationHandler.h"
-#include <Arduino.h>
+#include "CartController.h"
 
-SerialCommunicationHandler serialCommunicationHandler;
-DrinkPreparator drinkPreparator;
+CartController cartController{};
 
 void setup()
 {
-  serialCommunicationHandler.setup();
-  drinkPreparator.setElementIds(serialCommunicationHandler.getElementIds());
+    cartController.setup();
+    cartController.moveToPos(initPos);
 }
 
 void loop()
 {
-  while (!bitRead(drinkPreparator.drinkContents, 6)){
+    cartController.moveToPos(aPos);
+    delay(500);
+    cartController.moveToPos(bPos);
+    delay(500);
+    cartController.moveToPos(cPos);
+    delay(500);
+    cartController.moveToPos(dPos);
+    delay(500);
 
-    drinkPreparator.modifyContents(
-        serialCommunicationHandler.getDrinkContentChanges());
-    Serial.println(drinkPreparator.drinkContents, BIN);
-  }
-
-  SerialCommunicationHandler::updateDisplayProgressBar();
-  delay(200);
+    cartController.moveToPos(initPos);
 }
