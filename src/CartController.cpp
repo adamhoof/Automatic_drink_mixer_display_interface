@@ -19,28 +19,26 @@ void CartController::setDir(bool dir) {
 
 void CartController::calibrate() {
     setDir(backward);
-    while (!digitalRead(endSwitchPin) && cartPos == 1) {
+    while (!digitalRead(endSwitchPin)) {
         step(60);
     }
-    cartPos = 0;
     setDir(forward);
     for (; cartPos < 1000; cartPos += currentDir) {
         step(60);
     }
 }
 
-void CartController::step(uint8_t speed) {
+void CartController::step(uint8_t stepDelay) {
     digitalWrite(stepPin, HIGH);
-    delayMicroseconds(speed);
+    delayMicroseconds(stepDelay);
     digitalWrite(stepPin, LOW);
-    delayMicroseconds(speed);
+    delayMicroseconds(stepDelay);
 }
 
-void CartController::moveToPos(int32_t targetPos) {
-
-    if (targetPos != initPos) {
+void CartController::moveToPos(const int32_t *targetPos) {
+    if (*targetPos != initPos) {
         setDir(forward);
-        for (; cartPos < targetPos; cartPos += currentDir) {
+        for (; cartPos < *targetPos; cartPos += currentDir) {
             step(60);
         }
     } else {

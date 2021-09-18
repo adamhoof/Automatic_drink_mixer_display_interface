@@ -18,12 +18,17 @@ public:
     const uint8_t stepPin{A4};
     const uint8_t endSwitchPin{7};
     int8_t currentDir{0};
-    int32_t cartPos{1};
+    int32_t cartPos{0};
 
     CartController();
+
     void setup();
+
     void calibrate();
+
     void setDir(bool dir);
-    void step(uint8_t speed);
-    void moveToPos(int32_t targetPos);
+
+    void step(uint8_t stepDelay);
+
+    void moveToPos(const int32_t *targetPos);
 };

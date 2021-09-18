@@ -5,22 +5,21 @@
 
 CartController cartController{};
 
-void setup()
-{
+void setup() {
     cartController.setup();
     cartController.calibrate();
+    //glass checking logic
 }
 
-void loop()
-{
-    cartController.moveToPos(aPos);
+void loop() {
+    cartController.moveToPos(&aPos);
     delay(500);
-    cartController.moveToPos(bPos);
+    cartController.moveToPos(&bPos);
     delay(500);
-    cartController.moveToPos(cPos);
+    cartController.moveToPos(&cPos);
     delay(500);
-    cartController.moveToPos(dPos);
+    cartController.moveToPos(&dPos);
     delay(500);
 
-    cartController.moveToPos(initPos);
+    cartController.moveToPos(&initPos);
 }
