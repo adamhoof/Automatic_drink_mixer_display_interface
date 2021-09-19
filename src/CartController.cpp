@@ -2,12 +2,15 @@
 
 CartController::CartController() = default;
 
-void CartController::setup() {
+void CartController::setPins() {
     pinMode(motorEnablePin, OUTPUT);
     pinMode(dirPin, OUTPUT);
     pinMode(stepPin, OUTPUT);
     pinMode(endSwitchPin, INPUT);
-    digitalWrite(motorEnablePin, HIGH);
+}
+
+void CartController::setStepDelay(uint8_t stepDel) {
+    stepDelay = stepDel;
 }
 
 void CartController::setDir(bool dir) {
@@ -19,36 +22,36 @@ void CartController::setDir(bool dir) {
 
 void CartController::calibrate() {
     setDir(backward);
-    while (!digitalRead(endSwitchPin)) {
-        step(60);
+    while (!isInitPos()) {
+        step(stepDelay);
     }
-    setDir(forward);
-    for (; cartPos < 1000; cartPos += currentDir) {
-        step(60);
+    cartPos = 0;
+    moveToPos(&initPos);
     }
-}
 
-void CartController::step(uint8_t stepDelay) {
+void CartController::step(uint8_t stpDelay) {
     digitalWrite(stepPin, HIGH);
-    delayMicroseconds(stepDelay);
+    delayMicroseconds(stpDelay);
     digitalWrite(stepPin, LOW);
-    delayMicroseconds(stepDelay);
+    delayMicroseconds(stpDelay);
 }
 
 void CartController::moveToPos(const int32_t *targetPos) {
-    if (*targetPos != initPos) {
-        setDir(forward);
-        for (; cartPos < *targetPos; cartPos += currentDir) {
-            step(60);
-        }
-    } else {
-        setDir(backward);
-        for (; digitalRead(endSwitchPin) == LOW; cartPos += currentDir) {
-            step(60);
-        }
-        setDir(forward);
-        for (; cartPos < 1000; cartPos += currentDir) {
-            step(60);
-        }
+    setDir(forward);
+    for (; cartPos < *targetPos; cartPos += currentDir) {
+        step(stepDelay);
     }
 }
+
+bool CartController::isInitPos() const {
+    return digitalRead(endSwitchPin);
+}
+
+void CartController::blockMovement() const{
+    digitalWrite(motorEnablePin, LOW);
+}
+
+void CartController::allowMovement() const {
+    digitalWrite(motorEnablePin, HIGH);
+}
+
