@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Arduino.h>
+#include "Cart.h"
 
 #define forward true
 #define backward false
@@ -13,13 +14,8 @@ const int32_t dPos{83000};
 
 class CartController {
 private:
-    const uint8_t motorEnablePin{A5};
-    const uint8_t dirPin{A3};
-    const uint8_t stepPin{A4};
-    const uint8_t endSwitchPin{7};
-    uint8_t stepDelay{80};
-    int8_t currentDir{0};
-    int32_t cartPos{0};
+    Cart cart;
+
 public:
     CartController();
     void setPins();
