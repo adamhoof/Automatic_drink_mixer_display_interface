@@ -10,7 +10,6 @@ void setup() {
     cartController.setStepDelay(80);
     cartController.allowMovement();
     cartController.calibrate();
-
     //glass checking logic
 }
 
