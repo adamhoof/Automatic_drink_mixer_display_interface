@@ -25,7 +25,7 @@ void CartController::calibrate() {
     while (!isInitPos()) {
         step(cart.stepDelay);
     }
-    cart.cartPos = 0;
+    cart.pos = 0;
     moveToPos(&initPos);
     }
 
@@ -38,7 +38,7 @@ void CartController::step(uint8_t stpDelay) {
 
 void CartController::moveToPos(const int32_t *targetPos) {
     setDir(forward);
-    for (; cart.cartPos < *targetPos; cart.cartPos += cart.dir) {
+    for (; cart.pos < *targetPos; cart.pos += cart.dir) {
         step(cart.stepDelay);
     }
 }

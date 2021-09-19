@@ -10,7 +10,7 @@ public:
     const uint8_t endSwitchPin{7};
     uint8_t stepDelay{80};
     int8_t dir{0};
-    int32_t cartPos{0};
+    int32_t pos{0};
 
     Cart();
 };
