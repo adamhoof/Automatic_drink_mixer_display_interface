@@ -2,16 +2,19 @@
 #include "DrinkPreparator.h"
 #include "SerialCommunicationHandler.h"
 #include "CartController.h"
+#include "HX711_ADC.h"
+#include "ScaleController.h"
 
-CartController cartController{};
+ScaleController scaleController{};
 
 void setup() {
-    cartController.setPins();
-    cartController.setStepDelay(80);
-    cartController.allowMovement();
-    cartController.calibrate();
-    //glass checking logic
+    scaleController.init();
+    Serial.begin(57600);
 }
 
 void loop() {
+
+    Serial.println(scaleController.getWeight());
 }
+
+
