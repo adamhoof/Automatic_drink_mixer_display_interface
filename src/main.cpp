@@ -1,20 +1,16 @@
+#include <ProximitySensorController.h>
 #include <Arduino.h>
-#include "DrinkPreparator.h"
-#include "SerialCommunicationHandler.h"
-#include "CartController.h"
-#include "HX711_ADC.h"
-#include "ScaleController.h"
 
-ScaleController scaleController{};
+ProximitySensorController proximitySensorController{};
 
 void setup() {
-    scaleController.init();
-    Serial.begin(57600);
+    Serial.begin(9600);
+    proximitySensorController.init();
 }
 
 void loop() {
-
-    Serial.println(scaleController.getWeight());
+    Serial.println(proximitySensorController.getProximity());
+    delay(500);
 }
 
 
