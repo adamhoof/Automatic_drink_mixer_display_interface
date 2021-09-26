@@ -21,25 +21,61 @@ void CartController::setDir(bool dir) {
 }
 
 void CartController::calibrate() {
-    setDir(backward);
+    rerunCalib:;
+    Serial.println("Calib sequence");
+    allowMovement();
     while (!isInitPos()) {
-        step(cart.stepDelay);
+        move(cart.stepDelay);
     }
-    cart.pos = 0;
-    moveToPos(&initPos);
+    correctFalseInitPos();
+    blockMovement();
+    unsigned long lastTimeMessured = millis();
+    while (millis() - lastTimeMessured < validatingPeriod) {
+        if (!isInitPos()) {
+            goto rerunCalib; //recursive function call ended up somehow runing multiple functions at once
+        }
     }
+    allowMovement();
+    moveToPos(calibValidatePos, forward);
+    blockMovement();
+    while (isInitPos()) {
+        //todo vypsat na display ze ma pustit switch
+    }
+    allowMovement();
+    moveToPos(initPos, backward);
+    correctFalseInitPos();
+    if (isInitPos()) {
+        setDir(forward);
+        moveToPos(calibValidatePos, forward);
+        return;
+    }
+    goto rerunCalib;
+}
 
-void CartController::step(uint8_t stpDelay) {
+void CartController::move(uint8_t stpDelay) {
     digitalWrite(cart.stepPin, HIGH);
     delayMicroseconds(stpDelay);
     digitalWrite(cart.stepPin, LOW);
     delayMicroseconds(stpDelay);
 }
 
-void CartController::moveToPos(const int32_t *targetPos) {
-    setDir(forward);
-    for (; cart.pos < *targetPos; cart.pos += cart.dir) {
-        step(cart.stepDelay);
+void CartController::moveToPos(const int32_t targetPos, const bool dir) {
+    if (dir == forward) {
+        setDir(forward);
+        for (; cart.pos < targetPos; cart.pos += cart.dir) {
+            move(cart.stepDelay);
+        }
+    } else if (dir == backward) {
+        setDir(backward);
+        for (; cart.pos > targetPos; cart.pos += cart.dir) {
+            move(cart.stepDelay);
+        }
+    }
+}
+
+void CartController::correctFalseInitPos() {
+    for (int i = 0; i < 100; ++i) {
+        move(cart.stepDelay);
     }
 }
 
@@ -47,7 +83,7 @@ bool CartController::isInitPos() const {
     return digitalRead(cart.endSwitchPin);
 }
 
-void CartController::blockMovement() const{
+void CartController::blockMovement() const {
     digitalWrite(cart.motorEnablePin, LOW);
 }
 
