@@ -27,9 +27,7 @@ void CartController::calibrate() {
     while (!isInitPos()) {
         step(cart.stepDelay);
     }
-    for (int i = 0; i < 100; ++i) {
-        step(cart.stepDelay);
-    }
+    correctFalseInitPos();
 
     unsigned long lastTimeMessured = millis();
     Serial.println("Should have hit switch");
@@ -52,9 +50,7 @@ void CartController::calibrate() {
     setDir(backward);
     moveToPos(initPos, backward);
     Serial.println(cart.pos);
-    for (int i = 0; i < 100; ++i) {
-        step(cart.stepDelay);
-    }
+    correctFalseInitPos();
     if (isInitPos()) {
         Serial.println("Calibration valid");
         setDir(forward);
@@ -71,17 +67,22 @@ void CartController::step(uint8_t stpDelay) {
     delayMicroseconds(stpDelay);
 }
 
-void CartController::moveToPos(const int32_t targetPos, bool dir) {
-    if (dir == forward){
+void CartController::moveToPos(const int32_t targetPos, const bool dir) {
+    if (dir == forward) {
         for (; cart.pos < targetPos; cart.pos += cart.dir) {
             step(cart.stepDelay);
         }
-    } else if (dir == backward){
+    } else if (dir == backward) {
         for (; cart.pos > targetPos; cart.pos += cart.dir) {
             step(cart.stepDelay);
         }
     }
+}
 
+void CartController::correctFalseInitPos() {
+    for (int i = 0; i < 100; ++i) {
+        step(cart.stepDelay);
+    }
 }
 
 bool CartController::isInitPos() const {

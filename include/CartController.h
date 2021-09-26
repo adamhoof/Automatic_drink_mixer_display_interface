@@ -12,7 +12,7 @@ const int32_t aPos{16000};
 const int32_t bPos{37500};
 const int32_t cPos{59000};
 const int32_t dPos{83000};
-const uint16_t validatingPeriod = 5000;
+const uint16_t validatingPeriod = 1000;
 
 class CartController {
 private:
@@ -24,7 +24,8 @@ public:
     void calibrate();
     void setDir(bool dir);
     void step(uint8_t stpDelay);
-    void moveToPos(const int32_t targetPos, bool dir);
+    void moveToPos(int32_t targetPos, bool dir);
+    void correctFalseInitPos();
     bool isInitPos() const;
     void blockMovement() const;
     void allowMovement() const;
