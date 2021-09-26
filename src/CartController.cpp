@@ -23,46 +23,36 @@ void CartController::setDir(bool dir) {
 void CartController::calibrate() {
     rerunCalib:;
     Serial.println("Calib sequence");
-    setDir(backward);
     allowMovement();
-
     while (!isInitPos()) {
-        step(cart.stepDelay);
+        move(cart.stepDelay);
     }
     correctFalseInitPos();
-
-    unsigned long lastTimeMessured = millis();
-    Serial.println("Should have hit switch");
-    Serial.println(millis());
-    Serial.println(lastTimeMessured);
     blockMovement();
+    unsigned long lastTimeMessured = millis();
     while (millis() - lastTimeMessured < validatingPeriod) {
-        Serial.println(millis());
         if (!isInitPos()) {
             goto rerunCalib; //recursive function call ended up somehow runing multiple functions at once
-        } else if (isInitPos()) {
-            Serial.println("Outa there");
         }
     }
     allowMovement();
-    Serial.println("Init calib check");
-    setDir(forward);
     moveToPos(calibValidatePos, forward);
-    Serial.println(cart.pos);
-    setDir(backward);
+    blockMovement();
+    while (isInitPos()) {
+        //todo vypsat na display ze ma pustit switch
+    }
+    allowMovement();
     moveToPos(initPos, backward);
-    Serial.println(cart.pos);
     correctFalseInitPos();
     if (isInitPos()) {
-        Serial.println("Calibration valid");
         setDir(forward);
         moveToPos(calibValidatePos, forward);
         return;
     }
-    Serial.println("calibrate again");
+    goto rerunCalib;
 }
 
-void CartController::step(uint8_t stpDelay) {
+void CartController::move(uint8_t stpDelay) {
     digitalWrite(cart.stepPin, HIGH);
     delayMicroseconds(stpDelay);
     digitalWrite(cart.stepPin, LOW);
@@ -71,19 +61,21 @@ void CartController::step(uint8_t stpDelay) {
 
 void CartController::moveToPos(const int32_t targetPos, const bool dir) {
     if (dir == forward) {
+        setDir(forward);
         for (; cart.pos < targetPos; cart.pos += cart.dir) {
-            step(cart.stepDelay);
+            move(cart.stepDelay);
         }
     } else if (dir == backward) {
+        setDir(backward);
         for (; cart.pos > targetPos; cart.pos += cart.dir) {
-            step(cart.stepDelay);
+            move(cart.stepDelay);
         }
     }
 }
 
 void CartController::correctFalseInitPos() {
     for (int i = 0; i < 100; ++i) {
-        step(cart.stepDelay);
+        move(cart.stepDelay);
     }
 }
 
