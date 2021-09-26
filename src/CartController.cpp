@@ -22,29 +22,46 @@ void CartController::setDir(bool dir) {
 
 void CartController::calibrate() {
     Serial.println("Calib sequence");
-    unsigned long lastTimeMessured = millis();
-    uint16_t validatingPeriod = 5000;
-
     setDir(backward);
+
     while (!isInitPos()) {
         step(cart.stepDelay);
     }
-    while (millis() - lastTimeMessured < validatingPeriod){
-        Serial.println(millis());
-        if (!isInitPos()){
-            Serial.println("Failed to validate calibration");
-            calibrate();
+    for (int i = 0; i < 100; ++i) {
+        step(cart.stepDelay);
+    }
+
+    unsigned long lastTimeMessured = millis();
+    Serial.println("Should have hit switch");
+    Serial.println(millis());
+    Serial.println(lastTimeMessured);
+    blockMovement();
+    while (isInitPos()) {
+        if (millis() - lastTimeMessured > validatingPeriod) {
+            Serial.println("Should end counting");
+            break;
+        } else {
+            Serial.println(millis());
         }
     }
+    allowMovement();
     Serial.println("Init calib check");
-    moveToPos(&calibValidatePos, forward);
-    moveToPos(&initPos, backward);
-    if (isInitPos()){
+    setDir(forward);
+    moveToPos(calibValidatePos, forward);
+    Serial.println(cart.pos);
+    setDir(backward);
+    moveToPos(initPos, backward);
+    Serial.println(cart.pos);
+    for (int i = 0; i < 100; ++i) {
+        step(cart.stepDelay);
+    }
+    if (isInitPos()) {
         Serial.println("Calibration valid");
-        moveToPos(&calibValidatePos, forward);
+        setDir(forward);
+        moveToPos(calibValidatePos, forward);
         return;
     }
-    calibrate();
+    Serial.println("calibrate again");
 }
 
 void CartController::step(uint8_t stpDelay) {
@@ -54,11 +71,17 @@ void CartController::step(uint8_t stpDelay) {
     delayMicroseconds(stpDelay);
 }
 
-void CartController::moveToPos(const int32_t *targetPos, bool direction) {
-    setDir(direction);
-    for (; cart.pos < *targetPos; cart.pos += cart.dir) {
-        step(cart.stepDelay);
+void CartController::moveToPos(const int32_t targetPos, bool dir) {
+    if (dir == forward){
+        for (; cart.pos < targetPos; cart.pos += cart.dir) {
+            step(cart.stepDelay);
+        }
+    } else if (dir == backward){
+        for (; cart.pos > targetPos; cart.pos += cart.dir) {
+            step(cart.stepDelay);
+        }
     }
+
 }
 
 bool CartController::isInitPos() const {
