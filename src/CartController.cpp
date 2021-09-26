@@ -21,13 +21,31 @@ void CartController::setDir(bool dir) {
 }
 
 void CartController::calibrate() {
+    Serial.println("Calib sequence");
+    unsigned long lastTimeMessured = millis();
+    uint16_t validatingPeriod = 5000;
+
     setDir(backward);
     while (!isInitPos()) {
         step(cart.stepDelay);
     }
-    cart.pos = 0;
-    moveToPos(&initPos);
+    while (millis() - lastTimeMessured < validatingPeriod){
+        Serial.println(millis());
+        if (!isInitPos()){
+            Serial.println("Failed to validate calibration");
+            calibrate();
+        }
     }
+    Serial.println("Init calib check");
+    moveToPos(&calibValidatePos, forward);
+    moveToPos(&initPos, backward);
+    if (isInitPos()){
+        Serial.println("Calibration valid");
+        moveToPos(&calibValidatePos, forward);
+        return;
+    }
+    calibrate();
+}
 
 void CartController::step(uint8_t stpDelay) {
     digitalWrite(cart.stepPin, HIGH);
@@ -36,8 +54,8 @@ void CartController::step(uint8_t stpDelay) {
     delayMicroseconds(stpDelay);
 }
 
-void CartController::moveToPos(const int32_t *targetPos) {
-    setDir(forward);
+void CartController::moveToPos(const int32_t *targetPos, bool direction) {
+    setDir(direction);
     for (; cart.pos < *targetPos; cart.pos += cart.dir) {
         step(cart.stepDelay);
     }
@@ -47,7 +65,7 @@ bool CartController::isInitPos() const {
     return digitalRead(cart.endSwitchPin);
 }
 
-void CartController::blockMovement() const{
+void CartController::blockMovement() const {
     digitalWrite(cart.motorEnablePin, LOW);
 }
 

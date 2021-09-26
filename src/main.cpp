@@ -1,16 +1,15 @@
-#include <ProximitySensorController.h>
+#include "CartController.h"
 #include <Arduino.h>
 
-ProximitySensorController proximitySensorController{};
+CartController cartController{};
 
 void setup() {
     Serial.begin(9600);
-    proximitySensorController.init();
+    cartController.setPins();
+    cartController.allowMovement();
+    cartController.calibrate();
 }
 
 void loop() {
-    Serial.println(proximitySensorController.getProximity());
-    delay(500);
+    cartController.blockMovement();
 }
-
-
