@@ -21,8 +21,10 @@ void CartController::setDir(bool dir) {
 }
 
 void CartController::calibrate() {
+    rerunCalib:;
     Serial.println("Calib sequence");
     setDir(backward);
+    allowMovement();
 
     while (!isInitPos()) {
         step(cart.stepDelay);
@@ -34,12 +36,12 @@ void CartController::calibrate() {
     Serial.println(millis());
     Serial.println(lastTimeMessured);
     blockMovement();
-    while (isInitPos()) {
-        if (millis() - lastTimeMessured > validatingPeriod) {
-            Serial.println("Should end counting");
-            break;
-        } else {
-            Serial.println(millis());
+    while (millis() - lastTimeMessured < validatingPeriod) {
+        Serial.println(millis());
+        if (!isInitPos()) {
+            goto rerunCalib; //recursive function call ended up somehow runing multiple functions at once
+        } else if (isInitPos()) {
+            Serial.println("Outa there");
         }
     }
     allowMovement();
