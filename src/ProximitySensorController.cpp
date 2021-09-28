@@ -7,7 +7,7 @@ void ProximitySensorController::init() {
 
 unsigned long ProximitySensorController::sendPulses() {
     digitalWrite(proximitySensor.trigPin, LOW);
-    delayMicroseconds(5);
+    delayMicroseconds(2);
     digitalWrite(proximitySensor.trigPin, HIGH);
     delayMicroseconds(10);
     digitalWrite(proximitySensor.trigPin, LOW);
@@ -15,7 +15,7 @@ unsigned long ProximitySensorController::sendPulses() {
 }
 
 double ProximitySensorController::convertPulseToCm(unsigned long pulse) {
-    return ((double)pulse/2)/29.1;
+    return pulse*0.034/2;
 }
 
 double ProximitySensorController::getProximity() {
