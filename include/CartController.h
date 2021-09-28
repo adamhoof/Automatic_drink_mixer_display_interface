@@ -6,19 +6,19 @@
 #define forward true
 #define backward false
 
-const int32_t initPos{0};
-const int32_t calibValidatePos{1300};
-const int32_t aPos{16000};
-const int32_t bPos{37500};
-const int32_t cPos{59000};
-const int32_t dPos{83000};
-const uint16_t validatingPeriod = 3000;
-
 class CartController {
 private:
     Cart cart{};
 public:
     CartController();
+    enum positions{
+        start = 0,
+        calibValidate = 1300,
+        a = 16000,
+        b = 37500,
+        c = 59000,
+        d = 83000
+    };
     void setPins();
     void setStepDelay(uint8_t stepDel);
     void calibrate();
@@ -29,4 +29,5 @@ public:
     bool isInitPos() const;
     void blockMovement() const;
     void allowMovement() const;
+    const uint16_t validatingPeriod = 3000;
 };

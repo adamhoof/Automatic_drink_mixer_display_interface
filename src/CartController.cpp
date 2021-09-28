@@ -36,18 +36,19 @@ void CartController::calibrate() {
             goto rerunCalib;
         }
     }
+    cart.pos = 0;
     allowMovement();
-    moveToPos(calibValidatePos, forward);
+    moveToPos(positions::calibValidate, forward);
     blockMovement();
     while (isInitPos()) {
         //todo vypsat na display ze ma pustit switch
     }
     allowMovement();
-    moveToPos(initPos, backward);
+    moveToPos(positions::start, backward);
     correctFalseInitPos();
     if (isInitPos()) {
         setDir(forward);
-        moveToPos(calibValidatePos, forward);
+        moveToPos(positions::calibValidate, forward);
         return;
     }
     goto rerunCalib;
