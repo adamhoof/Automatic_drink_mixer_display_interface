@@ -21,7 +21,8 @@ void CartController::setDir(bool dir) {
 }
 
 void CartController::calibrate() {
-    rerunCalib:;
+    //todo simplify calib code, remove firt part, improve second
+    rerunCalib:; //recursive function call ended up somehow runing multiple functions at once, use goto instead:(
     Serial.println("Calib sequence");
     allowMovement();
     while (!isInitPos()) {
@@ -32,7 +33,7 @@ void CartController::calibrate() {
     unsigned long lastTimeMessured = millis();
     while (millis() - lastTimeMessured < validatingPeriod) {
         if (!isInitPos()) {
-            goto rerunCalib; //recursive function call ended up somehow runing multiple functions at once
+            goto rerunCalib;
         }
     }
     allowMovement();
@@ -90,4 +91,3 @@ void CartController::blockMovement() const {
 void CartController::allowMovement() const {
     digitalWrite(cart.motorEnablePin, HIGH);
 }
-

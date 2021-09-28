@@ -9,15 +9,11 @@
 class SerialCommunicationHandler
 {
 private:
-  const int baudRate = 9600;
+  const int baudRate{9600};
 public:
   SerialCommunicationHandler();
-
   void setup() const;
-
   uint8_t* getDrinkContentChanges();
-
   uint8_t* getElementIds();
-
   static void updateDisplayProgressBar();
 };

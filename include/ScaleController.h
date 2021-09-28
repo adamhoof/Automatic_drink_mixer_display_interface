@@ -2,13 +2,11 @@
 
 #include "Scale.h"
 
-class ScaleController{
+class ScaleController {
+private:
+    HX711_ADC scale{doutPin, sckPin};
 public:
     ScaleController();
-
-    HX711_ADC scale{doutPin, sckPin};
-
     void init();
-
     float getWeight();
 };

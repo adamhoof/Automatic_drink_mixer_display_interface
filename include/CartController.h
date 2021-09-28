@@ -16,7 +16,7 @@ const uint16_t validatingPeriod = 3000;
 
 class CartController {
 private:
-    Cart cart;
+    Cart cart{};
 public:
     CartController();
     void setPins();
