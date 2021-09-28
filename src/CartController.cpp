@@ -9,11 +9,11 @@ void CartController::setPins() {
     pinMode(cart.endSwitchPin, INPUT);
 }
 
-void CartController::setStepDelay(uint8_t stepDel) {
+void CartController::setStepDelay(const uint8_t& stepDel) {
     cart.stepDelay = stepDel;
 }
 
-void CartController::setDir(bool dir) {
+void CartController::setDir(const bool& dir) {
     digitalWrite(cart.dirPin, dir);
     if (dir == forward) { cart.dir = 1; }
     else if (dir == backward) { cart.dir = -1; }
@@ -54,14 +54,14 @@ void CartController::calibrate() {
     goto rerunCalib;
 }
 
-void CartController::move() {
+void CartController::move() const {
     digitalWrite(cart.stepPin, HIGH);
     delayMicroseconds(cart.stepDelay);
     digitalWrite(cart.stepPin, LOW);
     delayMicroseconds(cart.stepDelay);
 }
 
-void CartController::moveToPos(const int32_t targetPos, const bool dir) {
+void CartController::moveToPos(const int32_t& targetPos, const bool& dir) {
     if (dir == forward) {
         setDir(forward);
         for (; cart.pos < targetPos; cart.pos += cart.dir) {
@@ -75,7 +75,7 @@ void CartController::moveToPos(const int32_t targetPos, const bool dir) {
     }
 }
 
-void CartController::correctFalseInitPos() {
+void CartController::correctFalseInitPos() const {
     for (int i = 0; i < 100; ++i) {
         move();
     }
