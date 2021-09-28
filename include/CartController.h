@@ -11,6 +11,16 @@ private:
     Cart cart{};
 public:
     CartController();
+    void setPins();
+    void setStepDelay(uint8_t stepDel);
+    void calibrate();
+    void setDir(bool dir);
+    void move();
+    void moveToPos(int32_t targetPos, bool dir);
+    void correctFalseInitPos();
+    bool isInitPos() const;
+    void blockMovement() const;
+    void allowMovement() const;
     enum positions{
         start = 0,
         calibValidate = 1300,
@@ -19,15 +29,5 @@ public:
         c = 59000,
         d = 83000
     };
-    void setPins();
-    void setStepDelay(uint8_t stepDel);
-    void calibrate();
-    void setDir(bool dir);
-    void move(uint8_t stpDelay);
-    void moveToPos(int32_t targetPos, bool dir);
-    void correctFalseInitPos();
-    bool isInitPos() const;
-    void blockMovement() const;
-    void allowMovement() const;
     const uint16_t validatingPeriod = 3000;
 };
