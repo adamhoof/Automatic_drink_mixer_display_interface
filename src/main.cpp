@@ -11,9 +11,8 @@ void setup() {
     Serial.begin(9600);
     cartController.init();
     proximitySensorController.init();
-    for (int i = 0; i < 30; ++i) {
-        Serial.println(proximitySensorController.objectIsPresent());
-    }
+    bool isGlass = proximitySensorController.objectIsPresent();
+    Serial.println(isGlass);
 
     /*scaleController.init();
     cartController.setStepDelay(70);
