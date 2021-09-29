@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ProximitySensor.h"
+#include <AceSorting.h>
 
 class ProximitySensorController{
 private:
@@ -10,4 +11,5 @@ public:
     unsigned long sendPulses();
     double convertPulseToCm(unsigned long proximity);
     double getProximity();
+    bool objectIsPresent();
 };
