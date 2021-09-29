@@ -11,7 +11,7 @@ private:
     Cart cart{};
 public:
     CartController();
-    void setPins();
+    void init();
     void setStepDelay(const uint8_t& stepDel);
     void calibrate();
     void setDir(const bool& dir);

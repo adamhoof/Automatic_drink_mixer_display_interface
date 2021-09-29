@@ -2,7 +2,7 @@
 
 CartController::CartController() = default;
 
-void CartController::setPins() {
+void CartController::init() {
     pinMode(cart.motorEnablePin, OUTPUT);
     pinMode(cart.dirPin, OUTPUT);
     pinMode(cart.stepPin, OUTPUT);
