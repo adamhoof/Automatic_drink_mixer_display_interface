@@ -21,9 +21,7 @@ void CartController::setDir(const bool& dir) {
 }
 
 void CartController::calibrate() {
-    //todo simplify calib code, remove firt part, improve second
     rerunCalib:; //recursive function call ended up somehow runing multiple functions at once, use goto instead:(
-    Serial.println("Calib sequence");
     allowMovement();
     while (!isInitPos()) {
         move();
