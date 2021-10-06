@@ -5,6 +5,12 @@
 
 #define forward true
 #define backward false
+const int32_t start = 0;
+const int32_t calibValidate = 1300;
+const int32_t a = 16000;
+const int32_t b = 37500;
+const int32_t c = 59000;
+const int32_t d = 83000;
 
 class CartController {
 private:
@@ -21,13 +27,5 @@ public:
     bool isInitPos() const;
     void blockMovement() const;
     void allowMovement() const;
-    enum positions{
-        start = 0,
-        calibValidate = 1300,
-        a = 16000,
-        b = 37500,
-        c = 59000,
-        d = 83000
-    }positions;
     const uint16_t validatingPeriod = 3000;
 };
