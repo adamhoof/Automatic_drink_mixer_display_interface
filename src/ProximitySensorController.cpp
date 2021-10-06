@@ -1,11 +1,13 @@
 #include "ProximitySensorController.h"
 
-void ProximitySensorController::init() {
+void ProximitySensorController::init()
+{
     pinMode(proximitySensor.echoPin, INPUT);
     pinMode(proximitySensor.trigPin, OUTPUT);
 }
 
-unsigned long ProximitySensorController::sendPulses() {
+unsigned long ProximitySensorController::sendPulses()
+{
     digitalWrite(proximitySensor.trigPin, LOW);
     delayMicroseconds(2);
     digitalWrite(proximitySensor.trigPin, HIGH);
@@ -14,21 +16,24 @@ unsigned long ProximitySensorController::sendPulses() {
     return pulseIn(proximitySensor.echoPin, HIGH);
 }
 
-double ProximitySensorController::convertPulseToCm(unsigned long pulse) {
+double ProximitySensorController::convertPulseToCm(unsigned long pulse)
+{
     return pulse * 0.034 / 2;
 }
 
-double ProximitySensorController::getProximity() {
+double ProximitySensorController::getProximity()
+{
     return convertPulseToCm(sendPulses());
 }
 
-bool ProximitySensorController::objectIsPresent() {
+bool ProximitySensorController::objectIsPresent()
+{
     const uint8_t validationSamplesSize = 31;
     const uint8_t median = (validationSamplesSize + 1) / 2;
     double proximityValidationSamples[validationSamplesSize];
 #define samplesMedian proximityValidationSamples[median]
 
-    for (double &proximity: proximityValidationSamples) {
+    for (double& proximity: proximityValidationSamples) {
         proximity = getProximity();
         delay(10);
     }

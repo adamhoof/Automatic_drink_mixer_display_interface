@@ -3,13 +3,18 @@
 #include "ProximitySensor.h"
 #include <AceSorting.h>
 
-class ProximitySensorController{
+class ProximitySensorController
+{
 private:
-    ProximitySensor proximitySensor{};
+    ProximitySensor proximitySensor {};
 public:
     void init();
+
     unsigned long sendPulses();
+
     double convertPulseToCm(unsigned long proximity);
+
     double getProximity();
+
     bool objectIsPresent();
 };

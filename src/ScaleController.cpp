@@ -2,7 +2,8 @@
 
 ScaleController::ScaleController() = default;
 
-void ScaleController::init() {
+void ScaleController::init()
+{
     scale.begin();
 
     scale.start(stabilizingTime, doTare);
@@ -12,7 +13,8 @@ void ScaleController::init() {
     scale.setCalFactor(calibrationValue);
 }
 
-float ScaleController::getWeight() {
+float ScaleController::getWeight()
+{
     scale.update();
     return scale.getData();
 }

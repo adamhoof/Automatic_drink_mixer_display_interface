@@ -2,26 +2,35 @@
 
 CartController::CartController() = default;
 
-void CartController::init() {
+void CartController::init()
+{
     pinMode(cart.motorEnablePin, OUTPUT);
     pinMode(cart.dirPin, OUTPUT);
     pinMode(cart.stepPin, OUTPUT);
     pinMode(cart.endSwitchPin, INPUT);
 }
 
-void CartController::setStepDelay(const uint8_t& stepDel) {
+void CartController::setStepDelay(const uint8_t& stepDel)
+{
     cart.stepDelay = stepDel;
 }
 
-void CartController::setDir(const bool& dir) {
+void CartController::setDir(const bool& dir)
+{
     digitalWrite(cart.dirPin, dir);
-    if (dir == forward) { cart.dir = 1; }
-    else if (dir == backward) { cart.dir = -1; }
-    else { return; }
+    if (dir == forward) {
+        cart.dir = 1;
+    } else if (dir == backward) {
+        cart.dir = -1;
+    } else {
+        return;
+    }
 }
 
-void CartController::calibrate() {
-    rerunCalib:; //recursive function call ended up somehow runing multiple functions at once, use goto instead:(
+void CartController::calibrate()
+{
+    rerunCalib:; // recursive function call ended up somehow runing multiple
+    // functions at once, use goto instead:(
     allowMovement();
     while (!isInitPos()) {
         move();
@@ -39,7 +48,7 @@ void CartController::calibrate() {
     moveToPos(calibValidate, forward);
     blockMovement();
     while (isInitPos()) {
-        //todo vypsat na display ze ma pustit switch
+        // todo vypsat na display ze ma pustit switch
     }
     allowMovement();
     moveToPos(start, backward);
@@ -52,14 +61,16 @@ void CartController::calibrate() {
     goto rerunCalib;
 }
 
-void CartController::move() const {
+void CartController::move() const
+{
     digitalWrite(cart.stepPin, HIGH);
     delayMicroseconds(cart.stepDelay);
     digitalWrite(cart.stepPin, LOW);
     delayMicroseconds(cart.stepDelay);
 }
 
-void CartController::moveToPos(const int32_t& targetPos, const bool& dir) {
+void CartController::moveToPos(const int32_t& targetPos, const bool& dir)
+{
     if (dir == forward) {
         setDir(forward);
         for (; cart.pos < targetPos; cart.pos += cart.dir) {
@@ -73,20 +84,24 @@ void CartController::moveToPos(const int32_t& targetPos, const bool& dir) {
     }
 }
 
-void CartController::correctFalseInitPos() const {
+void CartController::correctFalseInitPos() const
+{
     for (int i = 0; i < 100; ++i) {
         move();
     }
 }
 
-bool CartController::isInitPos() const {
+bool CartController::isInitPos() const
+{
     return digitalRead(cart.endSwitchPin);
 }
 
-void CartController::blockMovement() const {
+void CartController::blockMovement() const
+{
     digitalWrite(cart.motorEnablePin, LOW);
 }
 
-void CartController::allowMovement() const {
+void CartController::allowMovement() const
+{
     digitalWrite(cart.motorEnablePin, HIGH);
 }
