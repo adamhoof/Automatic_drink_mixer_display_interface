@@ -2,41 +2,27 @@
 
 DisplayInterfaceHandler::DisplayInterfaceHandler() = default;
 
-struct DataBuffers
-{
-    static uint8_t drinkContentBuffer[contentsBuffLen];
-    static uint8_t elementIDBuffer[elemIdBuffLen];
-};
-
-void DisplayInterfaceHandler::init() //request communication on demand
+void DisplayInterfaceHandler::init()
 {
     ardDisplaySerial.begin(baudRate);
+
+    ardDisplaySerial.print("page pStart");
+
+    for (int i = 0; i < 3 ; ++i) {
+
+        ardDisplaySerial.write(0xFF);
+    }
 }
 
 uint8_t* DisplayInterfaceHandler::getDrinkData()
 {
-    if (!ardDisplaySerial.available()) {
-        return nullptr;
-    }
+    static uint8_t dataBuffer[contentsBuffLen];
 
-    ardDisplaySerial.readBytes(DataBuffers::drinkContentBuffer, contentsBuffLen);
-    return DataBuffers::drinkContentBuffer;
-}
+    if (!ardDisplaySerial.available()){
 
-uint8_t* DisplayInterfaceHandler::getElementIds()
-{
-    ardDisplaySerial.print("page 2");
-    for (int i = 0; i < 3; ++i) {
-
-        ardDisplaySerial.write(0xFF);
-    }
-    delay(10);
-
-
-    if (!ardDisplaySerial.available()) {
         return nullptr; //return dataBuffer
     }
 
-    ardDisplaySerial.readBytes(DataBuffers::elementIDBuffer, elemIdBuffLen);
-    return DataBuffers::elementIDBuffer;
+    ardDisplaySerial.readBytes(dataBuffer, contentsBuffLen);
+    return dataBuffer;
 }

@@ -3,19 +3,24 @@
 #include <Arduino.h>
 #include "DisplayInterfaceHandler.h"
 
-class DrinkPreparator
-{
+#define idPos 0
+#define valPos 1
+#define idA 1
+#define idB 2
+#define idC 3
+#define idD 4
+#define idWater 5
+#define idCancelButton 6
+#define idMakeDrinkButton 7
+
+class DrinkPreparator {
 public:
     uint8_t drinkContents;
+    uint8_t *drinkContentsPtr;
 public:
     DrinkPreparator();
 
-    struct ElementIds
-    {
-        uint8_t idA, idB, idC, idD, idWater, idCancelButton, idMakeDrinkButton;
-    };
+    void modifyContents(const uint8_t *receivedIdAndValue);
 
-    void modifyContents(const uint8_t* receivedIdAndValue);
-
-    void setElementIds(const uint8_t* elementIds);
+    bool readyToProceed() const;
 };

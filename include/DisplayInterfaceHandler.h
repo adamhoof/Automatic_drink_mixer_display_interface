@@ -4,7 +4,6 @@
 #include <SoftwareSerial.h>
 
 #define contentsBuffLen 2
-#define elemIdBuffLen 7
 
 class DisplayInterfaceHandler
 {
@@ -21,7 +20,4 @@ public:
     void init();
 
     uint8_t* getDrinkData();
-
-    uint8_t* getElementIds();
-
 };

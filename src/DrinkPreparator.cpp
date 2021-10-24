@@ -1,50 +1,48 @@
-#include "DrinkPreparator.h"
-
-DrinkPreparator::ElementIds elementIds {};
+#include <DrinkPreparator.h>
 
 DrinkPreparator::DrinkPreparator()
-        : drinkContents(B10000000)
+        : drinkContents(B10000000),
+        drinkContentsPtr(&drinkContents)
 {}
 
 void DrinkPreparator::modifyContents(const uint8_t* receivedIdAndValue)
 {
-    if (receivedIdAndValue[0] == elementIds.idA) {
+    uint8_t receivedId = receivedIdAndValue[idPos];
+    uint8_t receivedValue = receivedIdAndValue[valPos];
 
-        bitWrite(drinkContents, 0, receivedIdAndValue[1]);
+    delete receivedIdAndValue;
 
-    } else if (receivedIdAndValue[0] == elementIds.idB) {
+    if (receivedId == idA) {
 
-        bitWrite(drinkContents, 1, receivedIdAndValue[1]);
+        bitWrite(*drinkContentsPtr, idA, receivedValue);
 
-    } else if (receivedIdAndValue[0] == elementIds.idC) {
+    } else if (receivedId == idB) {
 
-        bitWrite(drinkContents, 2, receivedIdAndValue[1]);
+        bitWrite(*drinkContentsPtr, idB, receivedValue);
 
-    } else if (receivedIdAndValue[0] == elementIds.idD) {
+    } else if (receivedId == idC) {
 
-        bitWrite(drinkContents, 3, receivedIdAndValue[1]);
+        bitWrite(*drinkContentsPtr, idC, receivedValue);
 
-    } else if (receivedIdAndValue[0] == elementIds.idWater) {
+    } else if (receivedId == idD) {
 
-        bitWrite(drinkContents, 4, receivedIdAndValue[1]);
+        bitWrite(*drinkContentsPtr, idD, receivedValue);
 
-    } else if (receivedIdAndValue[0] == elementIds.idCancelButton) {
+    } else if (receivedId == idWater) {
 
-        drinkContents = B10000000;
+        bitWrite(*drinkContentsPtr, idWater, receivedValue);
 
-    } else if (receivedIdAndValue[0] == elementIds.idMakeDrinkButton) {
+    } else if (receivedId == idCancelButton) {
 
-        bitWrite(drinkContents, 6, 1);
+        *drinkContentsPtr = B10000000;
+
+    } else if (receivedId == idMakeDrinkButton) {
+
+        bitWrite(*drinkContentsPtr, idMakeDrinkButton, 0);
     }
 }
 
-void DrinkPreparator::setElementIds(const uint8_t* receivedElemIds)
+bool DrinkPreparator::readyToProceed() const
 {
-    elementIds.idA = receivedElemIds[0];
-    elementIds.idB = receivedElemIds[1];
-    elementIds.idC = receivedElemIds[2];
-    elementIds.idD = receivedElemIds[3];
-    elementIds.idWater = receivedElemIds[4];
-    elementIds.idCancelButton = receivedElemIds[5];
-    elementIds.idMakeDrinkButton = receivedElemIds[6];
+    return !bitRead(*drinkContentsPtr, idMakeDrinkButton);
 }
