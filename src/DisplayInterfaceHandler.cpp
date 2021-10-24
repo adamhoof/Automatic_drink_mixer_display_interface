@@ -14,8 +14,7 @@ uint8_t* DisplayInterfaceHandler::getDrinkData()
     static uint8_t dataBuffer[contentsBuffLen];
 
     if (!ardDisplaySerial.available()){
-
-        return nullptr; //return dataBuffer
+        return nullptr;
     }
 
     ardDisplaySerial.readBytes(dataBuffer, contentsBuffLen);
