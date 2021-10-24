@@ -20,4 +20,6 @@ public:
     void init();
 
     uint8_t* getDrinkData();
+
+    void writeUselessBytes();
 };

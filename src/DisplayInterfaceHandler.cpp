@@ -5,13 +5,8 @@ DisplayInterfaceHandler::DisplayInterfaceHandler() = default;
 void DisplayInterfaceHandler::init()
 {
     ardDisplaySerial.begin(baudRate);
-
     ardDisplaySerial.print("page pStart");
-
-    for (int i = 0; i < 3 ; ++i) {
-
-        ardDisplaySerial.write(0xFF);
-    }
+    writeUselessBytes();
 }
 
 uint8_t* DisplayInterfaceHandler::getDrinkData()
@@ -26,3 +21,9 @@ uint8_t* DisplayInterfaceHandler::getDrinkData()
     ardDisplaySerial.readBytes(dataBuffer, contentsBuffLen);
     return dataBuffer;
 }
+
+void DisplayInterfaceHandler::writeUselessBytes(){
+    for (int i = 0; i < 3 ; ++i) {
+        ardDisplaySerial.write(0xFF);
+    }
+};
