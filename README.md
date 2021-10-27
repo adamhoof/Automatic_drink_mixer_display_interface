@@ -1,3 +1,3 @@
 # AutomaticDrinkMixer
 
-Custom AutomaticDrinkMixer solution, made as a school project.
+Custom AutomaticDrinkMixer solution, done as a school project.
