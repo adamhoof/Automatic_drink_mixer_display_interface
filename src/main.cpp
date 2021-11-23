@@ -14,22 +14,24 @@ DrinkPreparator drinkPreparator {};
 void setup()
 {
     Serial.begin(9600);
-    displayInterfaceHandler.init();
+
+    proximitySensorController.init();
+    bool isObjectPresent = proximitySensorController.objectIsPresent();
+    Serial.println(isObjectPresent);
+
+    scaleController.init();
+    scaleController.getWeight();
+
+    cartController.init();
+    cartController.setStepDelay(70);
+    cartController.calibrate();
+    cartController.blockMovement();
+
+    /*displayInterfaceHandler.init();
 
     while (!drinkPreparator.readyToProceed()){
         drinkPreparator.modifyContents(displayInterfaceHandler.getDrinkData());
-    };
-
-    /*cartController.init();
-    proximitySensorController.init();
-    bool isGlass = proximitySensorController.objectIsPresent();
-    Serial.println(isGlass);
-*/
-    /*scaleController.init();
-    cartController.setStepDelay(70);
-    cartController.calibrate();
-    cartController.blockMovement();*/
-
+    };*/
 }
 
 void loop()
