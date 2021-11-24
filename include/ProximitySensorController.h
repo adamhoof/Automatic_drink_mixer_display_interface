@@ -8,7 +8,7 @@ class ProximitySensorController
 private:
     ProximitySensor proximitySensor {};
 public:
-    void init();
+    void setupControlPins(uint8_t trigPin, uint8_t echoPin);
 
     unsigned long sendPulses();
 

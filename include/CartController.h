@@ -19,7 +19,7 @@ private:
 public:
     CartController();
 
-    void init();
+    void setupControlPins(uint8_t motorEnPin, uint8_t dirPin, uint8_t stepPin, uint8_t endSwitchPin);
 
     void setStepDelay(const uint8_t& stepDel);
 

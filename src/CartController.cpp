@@ -2,8 +2,13 @@
 
 CartController::CartController() = default;
 
-void CartController::init()
+void CartController::setupControlPins(uint8_t motorEnPin, uint8_t dirPin, uint8_t stepPin, uint8_t endSwitchPin)
 {
+    cart.motorEnablePin = motorEnPin;
+    cart.dirPin = dirPin;
+    cart.stepPin = stepPin;
+    cart.endSwitchPin = endSwitchPin;
+
     pinMode(cart.motorEnablePin, OUTPUT);
     pinMode(cart.dirPin, OUTPUT);
     pinMode(cart.stepPin, OUTPUT);
