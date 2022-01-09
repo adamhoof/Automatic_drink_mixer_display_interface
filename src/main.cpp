@@ -11,6 +11,11 @@ ScaleController scaleController {};
 DisplayInterfaceHandler displayInterfaceHandler {};
 DrinkPreparator drinkPreparator {};
 
+const uint8_t a = 0;
+const uint8_t b = 1;
+const uint8_t c = 2;
+const uint8_t d = 3;
+
 void setup()
 {
     Serial.begin(9600);
@@ -23,9 +28,17 @@ void setup()
     cartController.setupControlPins(19, 17, 18, 7);
     cartController.setStepDelay(70);
     cartController.calibrate();
-    cartController.blockMovement();
 
-    delay(3000);
+    cartController.moveToPos(a, forward);
+    delay(100);
+    cartController.moveToPos(b, forward);
+    delay(100);
+    cartController.moveToPos(c, forward);
+    delay(100);
+    cartController.moveToPos(d, forward);
+    delay(100);
+
+    cartController.calibrate();
 
     /*displayInterfaceHandler.setupControlPins();
 

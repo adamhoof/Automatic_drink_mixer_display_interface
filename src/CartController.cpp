@@ -1,6 +1,7 @@
 #include "CartController.h"
 
-CartController::CartController() = default;
+CartController::CartController() : positions{16000,37500,59000,83000, 0, 1300}
+{}
 
 void CartController::setupControlPins(uint8_t motorEnPin, uint8_t dirPin, uint8_t stepPin, uint8_t endSwitchPin)
 {
@@ -36,6 +37,7 @@ void CartController::calibrate()
 {
     rerunCalib:; // recursive function call ended up somehow runing multiple
     // functions at once, use goto instead:(
+    setDir(backward);
     allowMovement();
     while (!isInitPos()) {
         move();
@@ -74,16 +76,15 @@ void CartController::move() const
     delayMicroseconds(cart.stepDelay);
 }
 
-void CartController::moveToPos(const int32_t& targetPos, const bool& dir)
+void CartController::moveToPos(uint8_t posIndex, const bool& dir)
 {
+    setDir(dir);
     if (dir == forward) {
-        setDir(forward);
-        for (; cart.pos < targetPos; cart.pos += cart.dir) {
+        for (; cart.pos < positions[posIndex]; cart.pos += cart.dir) {
             move();
         }
     } else if (dir == backward) {
-        setDir(backward);
-        for (; cart.pos > targetPos; cart.pos += cart.dir) {
+        for (; cart.pos > positions[posIndex]; cart.pos += cart.dir) {
             move();
         }
     }

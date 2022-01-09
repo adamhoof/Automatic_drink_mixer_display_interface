@@ -5,17 +5,14 @@
 
 #define forward true
 #define backward false
-const int32_t start = 0;
-const int32_t calibValidate = 1300;
-const int32_t a = 16000;
-const int32_t b = 37500;
-const int32_t c = 59000;
-const int32_t d = 83000;
 
 class CartController
 {
 private:
     Cart cart {};
+    const uint8_t start = 4;
+    const uint8_t calibValidate = 5;
+    const uint16_t validatingPeriod = 3000;
 public:
     CartController();
 
@@ -29,7 +26,7 @@ public:
 
     void move() const;
 
-    void moveToPos(const int32_t& targetPos, const bool& dir);
+    void moveToPos(uint8_t posIndex, const bool& dir);
 
     void correctFalseInitPos() const;
 
@@ -39,5 +36,5 @@ public:
 
     void allowMovement() const;
 
-    const uint16_t validatingPeriod = 3000;
+    const int32_t positions[6];
 };
