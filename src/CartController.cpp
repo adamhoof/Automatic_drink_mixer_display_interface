@@ -34,7 +34,7 @@ void CartController::setDir(const bool& dir)
 
 void CartController::calibrate()
 {
-    rerunCalib:; // recursive function call ended up somehow runing multiple
+    rerunCalib:; // recursive function call ended up somehow running multiple
     // functions at once, use goto instead:(
     allowMovement();
     while (!isInitPos()) {

@@ -7,17 +7,19 @@
 #define backward false
 const int32_t start = 0;
 const int32_t calibValidate = 1300;
-const int32_t a = 16000;
-const int32_t b = 37500;
-const int32_t c = 59000;
-const int32_t d = 83000;
 
 class CartController
 {
 private:
     Cart cart {};
+
+    const uint16_t validatingPeriod{3000};
+    const uint8_t startIndex{4};
+    const uint8_t calibValidateIndex{5};
 public:
     CartController();
+
+    int32_t positions[6];
 
     void setupControlPins(uint8_t motorEnPin, uint8_t dirPin, uint8_t stepPin, uint8_t endSwitchPin);
 
@@ -38,6 +40,4 @@ public:
     void blockMovement() const;
 
     void allowMovement() const;
-
-    const uint16_t validatingPeriod = 3000;
 };

@@ -20,7 +20,7 @@ public:
 public:
     DrinkPreparator();
 
-    void modifyContents(const uint8_t *receivedIdAndValue);
+    void setDrinkContent(const uint8_t *receivedIdAndValue) const;
 
     bool readyToProceed() const;
 };
