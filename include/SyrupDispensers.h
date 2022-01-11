@@ -4,11 +4,11 @@
 class SyrupDispensers
 {
 private:
-    Servo servo{11};
-    Servo servo1{10};
-    Servo servo2{9};
-    Servo servo3{6};
-    Servo dispensers[4];
+    Servo servo {11};
+    Servo servo1 {10};
+    Servo servo2 {9};
+    Servo servo3 {6};
+    Servo* dispensers[4];
     const uint8_t servoPins[4];
 public:
     SyrupDispensers();
