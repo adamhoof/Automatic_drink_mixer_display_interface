@@ -1,11 +1,18 @@
 #include "SyrupDispensers.h"
 
-SyrupDispensers::SyrupDispensers(): dispensers{Servo(11), Servo(10), Servo(9), Servo(6)}
+SyrupDispensers::SyrupDispensers() :dispensers{servo, servo1, servo2,servo3}, servoPins{11,10,9,6}
 {}
+
+void SyrupDispensers::setup(){
+    for (int i = 0; i < 4; ++i) {
+        dispensers[i].attach(servoPins[i]);
+        dispensers[i].write(30);
+    }
+}
 
 void SyrupDispensers::openValve(uint8_t dispenser)
 {
-    for (int i = 0; i < 130; ++i) {
+    for (int i = 30; i < 130; ++i) {
         dispensers[dispenser].write(i);
         delay(5);
     }
@@ -13,10 +20,8 @@ void SyrupDispensers::openValve(uint8_t dispenser)
 
 void SyrupDispensers::closeValve(uint8_t dispenser)
 {
-    for (int i = 130; i < 0; --i) {
+    for (int i = 130; i > 30; --i) {
         dispensers[dispenser].write(i);
         delay(5);
     }
 }
-
-

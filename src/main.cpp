@@ -4,7 +4,6 @@
 #include <Arduino.h>
 #include "DisplayInterfaceHandler.h"
 #include "DrinkPreparator.h"
-#include <Servo.h>
 #include "SyrupDispensers.h"
 
 CartController cartController {};
@@ -21,46 +20,44 @@ const uint8_t d = 3;
 
 void setup()
 {
-    Serial.begin(9600);
-
-    proximitySensorController.setupControlPins(5, 4);
-    bool isObjectPresent = proximitySensorController.objectIsPresent();
-
-    Serial.println("proximity");
-
-    scaleController.init();
-    Serial.println("scale");
-
-    cartController.setupControlPins(19, 17, 18, 7);
-    cartController.setStepDelay(70);
-    cartController.calibrate();
-
-    Serial.println("calibrated");
-
-    cartController.allowMovement();
-
-    cartController.moveToPos(cartController.positions[a], forward);
+    syrupDispensers.setup();
     syrupDispensers.openValve(a);
     delay(3000);
     syrupDispensers.closeValve(a);
     delay(100);
-    cartController.moveToPos(cartController.positions[b], forward);
+
+    /*Serial.begin(9600);
+
+    proximitySensorController.setupControlPins(5, 4);
+    bool isObjectPresent = proximitySensorController.objectIsPresent();
+
+    scaleController.init();
+
+    cartController.setControlPins(19, 17, 18, 7);
+    cartController.setStepDelay(70);
+    cartController.calibrate();
+
+    cartController.moveToPos(a, forward);
+    syrupDispensers.openValve(a);
+    delay(3000);
+    syrupDispensers.closeValve(a);
     delay(100);
-    cartController.moveToPos(cartController.positions[c], forward);
+    cartController.moveToPos(b, forward);
+    delay(100);
+    cartController.moveToPos(c, forward);
     syrupDispensers.openValve(c);
     delay(3000);
     syrupDispensers.closeValve(c);
     delay(100);
-    cartController.moveToPos(cartController.positions[d], forward);
+    cartController.moveToPos(d, forward);
     delay(100);
 
-    cartController.calibrate();
-    cartController.blockMovement();
+    cartController.calibrate();*/
 
-    /*displayInterfaceHandler.setupControlPins();
+    /*displayInterfaceHandler.setControlPins();
 
     while (!drinkPreparator.readyToProceed()){
-        drinkModifier.setDrinkContent(displayInterfaceHandler.getDrinkData());
+        drinkPreparator.modifyContents(displayInterfaceHandler.getDrinkData());
     };*/
 }
 
