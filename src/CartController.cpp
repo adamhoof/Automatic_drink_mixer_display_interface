@@ -1,9 +1,12 @@
 #include "CartController.h"
 
-CartController::CartController() : positions{16000,37500,59000,83000, 0, 1300}
+CartController::CartController() : positions {16000, 37500, 59000, 83000, 0, 1300},
+                                   start {4},
+                                   calibValidate {5},
+                                   validatingPeriod {3000}
 {}
 
-void CartController::setupControlPins(uint8_t motorEnPin, uint8_t dirPin, uint8_t stepPin, uint8_t endSwitchPin)
+void CartController::setControlPins(uint8_t motorEnPin, uint8_t dirPin, uint8_t stepPin, uint8_t endSwitchPin)
 {
     cart.motorEnablePin = motorEnPin;
     cart.dirPin = dirPin;
@@ -42,7 +45,7 @@ void CartController::calibrate()
     while (!isInitPos()) {
         move();
     }
-    correctFalseInitPos();
+    stopBullyingEndSwitch();
     blockMovement();
     unsigned long lastTimeMessured = millis();
     while (millis() - lastTimeMessured < validatingPeriod) {
@@ -59,7 +62,7 @@ void CartController::calibrate()
     }
     allowMovement();
     moveToPos(start, backward);
-    correctFalseInitPos();
+    stopBullyingEndSwitch();
     if (isInitPos()) {
         setDir(forward);
         moveToPos(calibValidate, forward);
@@ -90,7 +93,7 @@ void CartController::moveToPos(uint8_t posIndex, const bool& dir)
     }
 }
 
-void CartController::correctFalseInitPos() const
+void CartController::stopBullyingEndSwitch() const
 {
     for (int i = 0; i < 100; ++i) {
         move();

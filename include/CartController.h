@@ -10,13 +10,14 @@ class CartController
 {
 private:
     Cart cart {};
-    const uint8_t start = 4;
-    const uint8_t calibValidate = 5;
-    const uint16_t validatingPeriod = 3000;
+    const int32_t positions[6];
+    const uint8_t start;
+    const uint8_t calibValidate;
+    const uint16_t validatingPeriod;
 public:
     CartController();
 
-    void setupControlPins(uint8_t motorEnPin, uint8_t dirPin, uint8_t stepPin, uint8_t endSwitchPin);
+    void setControlPins(uint8_t motorEnPin, uint8_t dirPin, uint8_t stepPin, uint8_t endSwitchPin);
 
     void setStepDelay(const uint8_t& stepDel);
 
@@ -28,13 +29,11 @@ public:
 
     void moveToPos(uint8_t posIndex, const bool& dir);
 
-    void correctFalseInitPos() const;
+    void stopBullyingEndSwitch() const;
 
     bool isInitPos() const;
 
     void blockMovement() const;
 
     void allowMovement() const;
-
-    const int32_t positions[6];
 };
