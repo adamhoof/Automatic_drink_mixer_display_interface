@@ -20,4 +20,3 @@ public:
 
     void routeState(uint8_t route, bool state);
 };
-

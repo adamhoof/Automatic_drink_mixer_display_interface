@@ -5,14 +5,16 @@
 
 #define forward true
 #define backward false
+#define RIGHT 1
+#define LEFT 2
+#define startPos 4
+#define calibValidate 5
 
 class CartController
 {
 private:
     Cart cart {};
     const int32_t positions[6];
-    const uint8_t start;
-    const uint8_t calibValidate;
     const uint16_t validatingPeriod;
 public:
     CartController();

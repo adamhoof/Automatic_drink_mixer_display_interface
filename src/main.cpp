@@ -19,37 +19,40 @@ const uint8_t a = 0;
 const uint8_t b = 1;
 const uint8_t c = 2;
 const uint8_t d = 3;
-const uint8_t right = 1;
-const uint8_t left = 2;
 
 void setup()
 {
-    scaleController.init();
-
+    cartController.setControlPins(19, 17, 18, 7);
+    syrupDispensers.setup();
     waterDispensers.setup();
-    waterDispensers.routeState(right, on);
+
+    cartController.setStepDelay(70);
+    cartController.calibrate();
+
+    cartController.moveToPos(a, forward);
+
+    syrupDispensers.openValve(a);
+    delay(2700);
+    syrupDispensers.closeValve(a);
+
+    cartController.moveToPos(c, forward);
+
+    syrupDispensers.openValve(c);
+    delay(2700);
+    syrupDispensers.closeValve(c);
+
+    cartController.moveToPos(calibValidate, backward);
+
+    waterDispensers.routeState(RIGHT, on);
     waterDispensers.compressorState(on);
-    delay(20000);
+    delay(10000);
     waterDispensers.compressorState(off);
-    waterDispensers.routeState(right, off);
+    waterDispensers.routeState(RIGHT, off);
 
     /*proximitySensorController.setupControlPins(5, 4);
     bool isObjectPresent = proximitySensorController.objectIsPresent();
 
-    syrupDispensers.setup();
-
-    syrupDispensers.openValve(a);
-    delay(3000);
-    syrupDispensers.closeValve(a);
-    delay(100);*/
-
-    /*Serial.begin(9600);
-
     scaleController.init();
-
-    cartController.setControlPins(19, 17, 18, 7);
-    cartController.setStepDelay(70);
-    cartController.calibrate();
 
     cartController.moveToPos(a, forward);
     syrupDispensers.openValve(a);

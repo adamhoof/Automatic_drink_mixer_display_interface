@@ -1,8 +1,6 @@
 #include "CartController.h"
 
 CartController::CartController() : positions {16000, 37500, 59000, 83000, 0, 1300},
-                                   start {4},
-                                   calibValidate {5},
                                    validatingPeriod {3000}
 {}
 
@@ -61,7 +59,7 @@ void CartController::calibrate()
         // todo vypsat na display ze ma pustit switch
     }
     allowMovement();
-    moveToPos(start, backward);
+    moveToPos(startPos, backward);
     stopBullyingEndSwitch();
     if (isInitPos()) {
         setDir(forward);
@@ -81,6 +79,7 @@ void CartController::move() const
 
 void CartController::moveToPos(uint8_t posIndex, const bool& dir)
 {
+    allowMovement();
     setDir(dir);
     if (dir == forward) {
         for (; cart.pos < positions[posIndex]; cart.pos += cart.dir) {
@@ -91,6 +90,7 @@ void CartController::moveToPos(uint8_t posIndex, const bool& dir)
             move();
         }
     }
+    blockMovement();
 }
 
 void CartController::stopBullyingEndSwitch() const
