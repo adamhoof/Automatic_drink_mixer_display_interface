@@ -5,7 +5,7 @@ DrinkPreparator::DrinkPreparator()
           drinkContentsPtr(&drinkContents)
 {}
 
-void DrinkPreparator::modifyContents(const uint8_t* receivedIdAndValue)
+void DrinkPreparator::setDrinkContent(const uint8_t* receivedIdAndValue) const
 {
     uint8_t receivedId = receivedIdAndValue[idPos];
     uint8_t receivedValue = receivedIdAndValue[valPos];
