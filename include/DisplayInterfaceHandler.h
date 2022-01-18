@@ -9,8 +9,8 @@ class DisplayInterfaceHandler
 {
 private:
     const int baudRate {9600};
-    const uint8_t receivePin {8};
-    const uint8_t transmitPin {9};
+    const uint8_t receivePin {12};
+    const uint8_t transmitPin {8};
     const String startPage{"page pStart"};
 
 public:

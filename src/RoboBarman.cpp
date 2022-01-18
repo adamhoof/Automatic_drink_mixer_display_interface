@@ -6,17 +6,22 @@ void RoboBarman::prepareBar()
 {
     displayInterfaceHandler.setup();
     proximitySensorController.setup();
-    while (!proximitySensorController.objectIsPresent()){
+    while (proximitySensorController.objectIsPresent()){
         //todo DISPLAY OUTPUT: DEJ TU SKLENICKU PRYC BRASKO
     }
     scaleController.setup();
     cartController.setup();
+    cartController.calibrate();
     syrupDispensers.setup();
     waterDispensers.setup();
 }
 
 void RoboBarman::acceptDrinkOrder()
-{}
+{
+    while (!drinkConfer.readyToProceed()){
+        drinkConfer.setDrinkContent(displayInterfaceHandler.getDrinkData());
+    };
+}
 
 void RoboBarman::makeDrink()
 {}
