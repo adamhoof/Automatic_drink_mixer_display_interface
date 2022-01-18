@@ -5,8 +5,7 @@ DisplayInterfaceHandler::DisplayInterfaceHandler() = default;
 void DisplayInterfaceHandler::setup()
 {
     ardDisplaySerial.begin(baudRate);
-    ardDisplaySerial.print("page pStart");
-    writeUselessBytes();
+    changePage(startPage);
 }
 
 uint8_t* DisplayInterfaceHandler::getDrinkData()
@@ -26,3 +25,8 @@ void DisplayInterfaceHandler::writeUselessBytes(){
         ardDisplaySerial.write(0xFF);
     }
 };
+
+void DisplayInterfaceHandler::changePage(const String& page){
+    ardDisplaySerial.print(page);
+    writeUselessBytes();
+}

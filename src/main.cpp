@@ -6,6 +6,9 @@
 #include "DrinkConfigurator.h"
 #include "SyrupDispensers.h"
 #include "WaterDispensers.h"
+#include "RoboBarman.h"
+
+RoboBarman roboBarman{};
 
 CartController cartController {};
 ProximitySensorController proximitySensorController {};
@@ -15,19 +18,9 @@ DrinkConfigurator drinkConfer {};
 SyrupDispensers syrupDispensers{};
 WaterDispensers waterDispensers{};
 
-const uint8_t a = 0;
-const uint8_t b = 1;
-const uint8_t c = 2;
-const uint8_t d = 3;
-
 void setup()
 {
-    cartController.setup();
-    syrupDispensers.setup();
-    waterDispensers.setup();
-    proximitySensorController.setup();
-    scaleController.setup();
-    displayInterfaceHandler.setup();
+    roboBarman.prepareBar();
 
     cartController.calibrate();
 
@@ -82,4 +75,8 @@ void setup()
 
 void loop()
 {
+    roboBarman.acceptDrinkOrder();
+    roboBarman.makeDrink();
+    roboBarman.serveDrink();
+    roboBarman.cleanupBar();
 }

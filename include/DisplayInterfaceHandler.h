@@ -11,6 +11,7 @@ private:
     const int baudRate {9600};
     const uint8_t receivePin {8};
     const uint8_t transmitPin {9};
+    const String startPage{"page pStart"};
 
 public:
     DisplayInterfaceHandler();
@@ -20,6 +21,8 @@ public:
     void setup();
 
     uint8_t* getDrinkData();
+
+    void changePage(const String& page);
 
     void writeUselessBytes();
 };
