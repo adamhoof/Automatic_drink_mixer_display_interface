@@ -1,12 +1,12 @@
 #include "SyrupDispensers.h"
 
-SyrupDispensers::SyrupDispensers() : dispensers {&servo, &servo1, &servo2, &servo3}, servoPins {11, 10, 9, 6}
+SyrupDispensers::SyrupDispensers() : dispensers {&servo, &servo1, &servo2, &servo3}, pins {11, 10, 9, 6}
 {}
 
 void SyrupDispensers::setup()
 {
     for (int i = 0; i < 4; ++i) {
-        dispensers[i]->attach(servoPins[i]);
+        dispensers[i]->attach(pins[i]);
         dispensers[i]->write(30);
     }
 }

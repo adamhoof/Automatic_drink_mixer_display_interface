@@ -7,6 +7,6 @@ class ProximitySensor
 public:
     ProximitySensor();
 
-    uint8_t trigPin {};
-    uint8_t echoPin {};
+    const uint8_t trigPin {};
+    const uint8_t echoPin {};
 };

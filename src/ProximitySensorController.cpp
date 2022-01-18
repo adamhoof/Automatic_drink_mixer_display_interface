@@ -1,10 +1,7 @@
 #include "ProximitySensorController.h"
 
-void ProximitySensorController::setupControlPins(uint8_t trigPin, uint8_t echoPin)
+void ProximitySensorController::setup()
 {
-    proximitySensor.trigPin = trigPin;
-    proximitySensor.echoPin = echoPin;
-
     pinMode(proximitySensor.echoPin, INPUT);
     pinMode(proximitySensor.trigPin, OUTPUT);
 }

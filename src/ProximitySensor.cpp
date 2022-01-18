@@ -1,3 +1,4 @@
 #include "ProximitySensor.h"
 
-ProximitySensor::ProximitySensor() = default;
+ProximitySensor::ProximitySensor() : trigPin {5}, echoPin {4}
+{}

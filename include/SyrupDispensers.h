@@ -9,7 +9,7 @@ private:
     Servo servo2 {9};
     Servo servo3 {6};
     Servo* dispensers[4];
-    const uint8_t servoPins[4];
+    const uint8_t pins[4];
 public:
     SyrupDispensers();
 

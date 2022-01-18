@@ -3,7 +3,7 @@
 #include "ScaleController.h"
 #include <Arduino.h>
 #include "DisplayInterfaceHandler.h"
-#include "DrinkPreparator.h"
+#include "DrinkMixer.h"
 #include "SyrupDispensers.h"
 #include "WaterDispensers.h"
 
@@ -11,7 +11,7 @@ CartController cartController {};
 ProximitySensorController proximitySensorController {};
 ScaleController scaleController {};
 DisplayInterfaceHandler displayInterfaceHandler {};
-DrinkPreparator drinkPreparator {};
+DrinkMixer drinkMixer {};
 SyrupDispensers syrupDispensers{};
 WaterDispensers waterDispensers{};
 
@@ -22,14 +22,13 @@ const uint8_t d = 3;
 
 void setup()
 {
-    cartController.setControlPins(19, 17, 18, 7);
+    cartController.setup();
     syrupDispensers.setup();
     waterDispensers.setup();
 
-    cartController.setStepDelay(70);
     cartController.calibrate();
 
-    cartController.moveToPos(a, forward);
+    /*cartController.moveToPos(a, forward);
 
     syrupDispensers.openValve(a);
     delay(2700);
@@ -47,9 +46,9 @@ void setup()
     waterDispensers.compressorState(on);
     delay(10000);
     waterDispensers.compressorState(off);
-    waterDispensers.routeState(RIGHT, off);
+    waterDispensers.routeState(RIGHT, off);*/
 
-    /*proximitySensorController.setupControlPins(5, 4);
+    /*proximitySensorController.setup(5, 4);
     bool isObjectPresent = proximitySensorController.objectIsPresent();
 
     scaleController.init();
@@ -71,11 +70,11 @@ void setup()
 
     cartController.calibrate();*/
 
-    /*displayInterfaceHandler.setControlPins();
+    /*displayInterfaceHandler.setup();*/
 
-    while (!drinkPreparator.readyToProceed()){
-        drinkPreparator.modifyContents(displayInterfaceHandler.getDrinkData());
-    };*/
+    while (!drinkMixer.readyToProceed()){
+        drinkMixer.setDrinkContent(displayInterfaceHandler.getDrinkData());
+    };
 }
 
 void loop()

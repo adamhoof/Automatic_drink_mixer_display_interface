@@ -4,13 +4,8 @@ CartController::CartController() : positions {16000, 37500, 59000, 83000, 0, 130
                                    validatingPeriod {3000}
 {}
 
-void CartController::setControlPins(uint8_t motorEnPin, uint8_t dirPin, uint8_t stepPin, uint8_t endSwitchPin)
+void CartController::setup()
 {
-    cart.motorEnablePin = motorEnPin;
-    cart.dirPin = dirPin;
-    cart.stepPin = stepPin;
-    cart.endSwitchPin = endSwitchPin;
-
     pinMode(cart.motorEnablePin, OUTPUT);
     pinMode(cart.dirPin, OUTPUT);
     pinMode(cart.stepPin, OUTPUT);

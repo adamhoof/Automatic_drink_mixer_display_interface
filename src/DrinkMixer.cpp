@@ -1,11 +1,11 @@
-#include <DrinkPreparator.h>
+#include <DrinkMixer.h>
 
-DrinkPreparator::DrinkPreparator()
+DrinkMixer::DrinkMixer()
         : drinkContents(B10000000),
           drinkContentsPtr(&drinkContents)
 {}
 
-void DrinkPreparator::setDrinkContent(const uint8_t* receivedIdAndValue) const
+void DrinkMixer::setDrinkContent(const uint8_t* receivedIdAndValue) const
 {
     uint8_t receivedId = receivedIdAndValue[idPos];
     uint8_t receivedValue = receivedIdAndValue[valPos];
@@ -38,7 +38,7 @@ void DrinkPreparator::setDrinkContent(const uint8_t* receivedIdAndValue) const
     }
 }
 
-bool DrinkPreparator::readyToProceed() const
+bool DrinkMixer::readyToProceed() const
 {
     return !bitRead(*drinkContentsPtr, idMakeDrinkButton);
 }

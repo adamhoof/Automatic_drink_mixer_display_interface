@@ -9,7 +9,7 @@ class WaterDispensers
 {
 private:
     const uint8_t compressorPin;
-    uint8_t pins[3];
+    const uint8_t pins[3];
 public:
 
     WaterDispensers();
