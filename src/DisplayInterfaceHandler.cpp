@@ -2,7 +2,7 @@
 
 DisplayInterfaceHandler::DisplayInterfaceHandler() = default;
 
-void DisplayInterfaceHandler::init()
+void DisplayInterfaceHandler::setup()
 {
     ardDisplaySerial.begin(baudRate);
     ardDisplaySerial.print("page pStart");

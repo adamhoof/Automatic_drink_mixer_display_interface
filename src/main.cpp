@@ -3,7 +3,7 @@
 #include "ScaleController.h"
 #include <Arduino.h>
 #include "DisplayInterfaceHandler.h"
-#include "DrinkMixer.h"
+#include "DrinkConfigurator.h"
 #include "SyrupDispensers.h"
 #include "WaterDispensers.h"
 
@@ -11,7 +11,7 @@ CartController cartController {};
 ProximitySensorController proximitySensorController {};
 ScaleController scaleController {};
 DisplayInterfaceHandler displayInterfaceHandler {};
-DrinkMixer drinkMixer {};
+DrinkConfigurator drinkConfer {};
 SyrupDispensers syrupDispensers{};
 WaterDispensers waterDispensers{};
 
@@ -25,6 +25,9 @@ void setup()
     cartController.setup();
     syrupDispensers.setup();
     waterDispensers.setup();
+    proximitySensorController.setup();
+    scaleController.setup();
+    displayInterfaceHandler.setup();
 
     cartController.calibrate();
 
@@ -51,7 +54,7 @@ void setup()
     /*proximitySensorController.setup(5, 4);
     bool isObjectPresent = proximitySensorController.objectIsPresent();
 
-    scaleController.init();
+    scaleController.setup();
 
     cartController.moveToPos(a, forward);
     syrupDispensers.openValve(a);
@@ -72,8 +75,8 @@ void setup()
 
     /*displayInterfaceHandler.setup();*/
 
-    while (!drinkMixer.readyToProceed()){
-        drinkMixer.setDrinkContent(displayInterfaceHandler.getDrinkData());
+    while (!drinkConfer.readyToProceed()){
+        drinkConfer.setDrinkContent(displayInterfaceHandler.getDrinkData());
     };
 }
 

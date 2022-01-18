@@ -2,13 +2,13 @@
 
 ScaleController::ScaleController() = default;
 
-void ScaleController::init()
+void ScaleController::setup()
 {
     scale.begin();
 
     scale.start(stabilizingTime, doTare);
     if (scale.getTareTimeoutFlag()) {
-        ScaleController::init();
+        ScaleController::setup();
     }
     scale.setCalFactor(calibrationValue);
 }

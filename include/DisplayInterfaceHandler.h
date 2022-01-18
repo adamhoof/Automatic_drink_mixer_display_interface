@@ -17,7 +17,7 @@ public:
 
     SoftwareSerial ardDisplaySerial {receivePin, transmitPin};
 
-    void init();
+    void setup();
 
     uint8_t* getDrinkData();
 

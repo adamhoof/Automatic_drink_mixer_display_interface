@@ -9,7 +9,7 @@ private:
 public:
     ScaleController();
 
-    void init();
+    void setup();
 
     float getWeight();
 };
