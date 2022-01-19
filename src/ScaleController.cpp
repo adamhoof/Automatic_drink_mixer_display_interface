@@ -15,7 +15,7 @@ void ScaleController::setup()
 
 float ScaleController::getWeight()
 {
-    for (int i = 0; i < 15000; ++i) {
+    for (int i = 0; i < 7000; ++i) {
         scale.update();
         scale.getData();
     }

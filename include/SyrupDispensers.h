@@ -15,7 +15,7 @@ public:
 
     void setup();
 
-    void openValve(uint8_t dispenser);
+    void openValve(uint8_t dispenserIndex);
 
     void closeValve(uint8_t dispenser);
 };

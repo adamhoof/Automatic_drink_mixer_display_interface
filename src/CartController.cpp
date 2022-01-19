@@ -38,6 +38,9 @@ void CartController::calibrate()
     while (!isInitPos()) {
         move();
     }
+    for (int i = 0; i < 20; ++i) {
+        move();
+    }
     stopBullyingEndSwitch();
     blockMovement();
     unsigned long lastTimeMessured = millis();

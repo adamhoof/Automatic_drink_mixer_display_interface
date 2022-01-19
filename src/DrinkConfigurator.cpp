@@ -38,7 +38,7 @@ void DrinkConfigurator::setDrinkContent(const uint8_t* receivedIdAndValue) const
     }
 }
 
-bool DrinkConfigurator::readyToProceed() const
+bool DrinkConfigurator::configurationComplete() const
 {
     return !bitRead(*drinkContentsPtr, idMakeDrinkButton);
 }
