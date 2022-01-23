@@ -18,5 +18,5 @@ public:
 
     void compressorState(bool state);
 
-    void routeState(uint8_t route, bool state);
+    void routeState(uint8_t routeIndex, bool state);
 };

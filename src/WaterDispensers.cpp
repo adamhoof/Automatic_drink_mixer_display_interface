@@ -14,7 +14,7 @@ void WaterDispensers::compressorState(bool state)
     digitalWrite(pins[compressorPin], state);
 }
 
-void WaterDispensers::routeState(uint8_t route, bool state)
+void WaterDispensers::routeState(uint8_t routeIndex, bool state)
 {
-    digitalWrite(pins[route], state);
+    digitalWrite(pins[routeIndex], state);
 }

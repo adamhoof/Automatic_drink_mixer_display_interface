@@ -31,6 +31,8 @@ public:
 
     void moveToPos(uint8_t posIndex, const bool& dir);
 
+    void fukDaSwitch() const;
+
     void stopBullyingEndSwitch() const;
 
     bool isInitPos() const;

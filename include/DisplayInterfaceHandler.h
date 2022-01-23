@@ -4,6 +4,7 @@
 #include <SoftwareSerial.h>
 
 #define contentsBuffLen 2
+#define startPage "page pStart"
 
 class DisplayInterfaceHandler
 {
@@ -11,8 +12,6 @@ private:
     const int baudRate {9600};
     const uint8_t receivePin {12};
     const uint8_t transmitPin {8};
-    const String startPage{"page pStart"};
-
 public:
     DisplayInterfaceHandler();
 

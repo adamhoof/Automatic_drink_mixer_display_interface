@@ -38,9 +38,7 @@ void CartController::calibrate()
     while (!isInitPos()) {
         move();
     }
-    for (int i = 0; i < 20; ++i) {
-        move();
-    }
+    fukDaSwitch();
     stopBullyingEndSwitch();
     blockMovement();
     unsigned long lastTimeMessured = millis();
@@ -91,7 +89,14 @@ void CartController::moveToPos(uint8_t posIndex, const bool& dir)
     blockMovement();
 }
 
-void CartController::stopBullyingEndSwitch() const
+void CartController::fukDaSwitch() const { //ensures there are no false switch readings, resulting in cart just goin' crazy
+
+    for (int i = 0; i < 80; ++i) {
+        move();
+    }
+}
+
+void CartController::stopBullyingEndSwitch() const //moves away from the switch so that it doesn't scream
 {
     for (int i = 0; i < 100; ++i) {
         move();

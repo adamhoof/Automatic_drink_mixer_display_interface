@@ -6,8 +6,14 @@ void RoboBarman::prepareBar()
 {
     displayInterfaceHandler.setup();
     proximitySensorController.setup();
+    bool alreadySentPageUpdate = false;
     while (proximitySensorController.objectIsPresent()) {
-        //todo DISPLAY OUTPUT: DEJ TU SKLENICKU PRYC BRASKO
+        if (alreadySentPageUpdate) {
+            continue;
+        }
+        displayInterfaceHandler.ardDisplaySerial.print("page pRemoveObject");
+        displayInterfaceHandler.writeUselessBytes();
+        alreadySentPageUpdate = true;
     }
     scaleController.setup();
     cartController.setup();
@@ -26,19 +32,37 @@ void RoboBarman::acceptDrinkOrder()
 void RoboBarman::makeDrink()
 {
     for (int i = 0; i < 4; i++) {
-        if (bitRead(*drinkConfer.drinkContentsPtr, i+1)) {
+        if (bitRead(*drinkConfer.drinkContentsPtr, i + 1)) {
             cartController.moveToPos(i, forward);
 
             syrupDispensers.openValve(i);
             delay(200);
 
             float lastMessuredWeight = scaleController.getWeight();
-            while (scaleController.getWeight() > lastMessuredWeight+2) {
+            while (scaleController.getWeight() > lastMessuredWeight + 2) {
                 lastMessuredWeight = scaleController.getWeight();
             }
 
             syrupDispensers.closeValve(i);
         }
+    }
+    cartController.moveToPos(calibValidate, backward);
+
+    uint8_t requiredRoute {};
+
+    bitRead(*drinkConfer.drinkContentsPtr, idWater) ? requiredRoute = RIGHT
+                                                    : requiredRoute = LEFT;
+
+    waterDispensers.routeState(requiredRoute, on);
+
+    waterDispensers.compressorState(on);
+    delay(10000);
+    waterDispensers.compressorState(off);
+
+    waterDispensers.routeState(requiredRoute, off);
+
+    while (proximitySensorController.objectIsPresent()) {
+        //todo DISPLAY OUTPUT: odeberte napoj
     }
     cartController.calibrate();
 }
