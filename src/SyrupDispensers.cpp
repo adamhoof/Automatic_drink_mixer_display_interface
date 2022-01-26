@@ -11,10 +11,10 @@ void SyrupDispensers::setup()
     }
 }
 
-void SyrupDispensers::openValve(uint8_t dispenser)
+void SyrupDispensers::openValve(uint8_t dispenserIndex)
 {
     for (int i = 30; i < 130; ++i) {
-        dispensers[dispenser]->write(i);
+        dispensers[dispenserIndex]->write(i);
         delay(5);
     }
 }
