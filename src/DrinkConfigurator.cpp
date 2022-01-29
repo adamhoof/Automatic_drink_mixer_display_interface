@@ -1,9 +1,17 @@
 #include <DrinkConfigurator.h>
 
 DrinkConfigurator::DrinkConfigurator()
-        : drinkContents(B10000000),
-          drinkContentsPtr(&drinkContents)
+        : drinkContents{B10000000},
+          drinkContentsPtr {&drinkContents},
+          requiredNumOfSyrups{0},
+          requiredNumOfSyrupsPtr{&requiredNumOfSyrups}
 {}
+
+void DrinkConfigurator::resetContents() const
+{
+    *drinkContentsPtr = B10000000;
+    *requiredNumOfSyrupsPtr = 0;
+}
 
 void DrinkConfigurator::setDrinkContent(const uint8_t* receivedIdAndValue) const
 {
@@ -13,7 +21,7 @@ void DrinkConfigurator::setDrinkContent(const uint8_t* receivedIdAndValue) const
 
     switch (receivedId) {
         case idCancelButton:
-            *drinkContentsPtr = B10000000;
+            resetContents();
             break;
         case idA:
             bitWrite(*drinkContentsPtr, idA, receivedValue);

@@ -4,7 +4,11 @@
 #include <SoftwareSerial.h>
 
 #define contentsBuffLen 2
-#define startPage "page pStart"
+#define placeObjectPage "page pPlaceObj"
+#define initPage "page pInit"
+#define initTextField "initTxt"
+#define initProgressBar "initProgress"
+#define createDrinkPage "page pCreateDrink"
 
 class DisplayInterfaceHandler
 {
@@ -24,4 +28,8 @@ public:
     void changePage(const String& page);
 
     void writeUselessBytes();
+
+    void updateProgressBar(const String& progressBar, const String& valueToAdd);
+
+    void updateTextField(const String& textField, const String& value);
 };
