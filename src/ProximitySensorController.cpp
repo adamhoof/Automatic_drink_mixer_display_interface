@@ -28,7 +28,7 @@ double ProximitySensorController::getProximity()
 
 bool ProximitySensorController::objectIsPresent()
 {
-    const uint8_t validationSamplesSize = 31;
+    const uint8_t validationSamplesSize = 15;
     const uint8_t median = (validationSamplesSize + 1) / 2;
     double proximityValidationSamples[validationSamplesSize];
 #define samplesMedian proximityValidationSamples[median]

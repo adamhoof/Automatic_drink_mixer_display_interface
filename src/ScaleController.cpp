@@ -6,16 +6,18 @@ void ScaleController::setup()
 {
     scale.begin();
 
+    failedSetup:
     scale.start(stabilizingTime, doTare);
     if (scale.getTareTimeoutFlag()) {
-        ScaleController::setup();
+        goto failedSetup;
     }
     scale.setCalFactor(calibrationValue);
 }
 
 float ScaleController::getWeight()
 {
-    for (int i = 0; i < 7000; ++i) {
+    scale.update();
+    for (int i = 0; i < 4000; ++i) {
         scale.update();
         scale.getData();
     }

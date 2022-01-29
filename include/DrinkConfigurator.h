@@ -13,14 +13,19 @@
 #define idCancelButton 6
 #define idMakeDrinkButton 7
 
-class DrinkConfigurator {
+class DrinkConfigurator
+{
 public:
-    uint8_t drinkContents;
-    uint8_t *drinkContentsPtr;
+    uint8_t drinkContents {};
+    uint8_t* drinkContentsPtr {};
+    uint8_t requiredNumOfSyrups {};
+    uint8_t* requiredNumOfSyrupsPtr {};
 public:
     DrinkConfigurator();
 
-    void setDrinkContent(const uint8_t *receivedIdAndValue) const;
+    void setDrinkContent(const uint8_t* receivedIdAndValue) const;
 
     bool configurationComplete() const;
+
+    void resetContents() const;
 };
