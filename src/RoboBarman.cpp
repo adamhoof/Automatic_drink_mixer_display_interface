@@ -16,22 +16,23 @@ void RoboBarman::prepareBar()
     }
     displayInterfaceHandler.changePage(initPage);
     displayInterfaceHandler.updateTextField(initTextField, "Initializing scale controller...");
+    delay(tillGlassIsPlaced);
     scaleController.setup();
     displayInterfaceHandler.updateProgressBar(initProgressBar, "25");
-    delay(100);
+    delay(cosmeticDelay);
     displayInterfaceHandler.updateTextField(initTextField, "Initializing cart controller...");
     cartController.setup();
     cartController.calibrate();
     displayInterfaceHandler.updateProgressBar(initProgressBar, "25");
-    delay(100);
+    delay(cosmeticDelay);
     displayInterfaceHandler.updateTextField(initTextField, "Initializing syrup dispensers...");
     syrupDispensers.setup();
     displayInterfaceHandler.updateProgressBar(initProgressBar, "25");
-    delay(100);
+    delay(cosmeticDelay);
     displayInterfaceHandler.updateTextField(initTextField, "Initializing water dispensers...");
     waterDispensers.setup();
     displayInterfaceHandler.updateProgressBar(initProgressBar, "25");
-    delay(100);
+    delay(cosmeticDelay);
 }
 
 void RoboBarman::acceptDrinkOrder()
@@ -50,7 +51,7 @@ void RoboBarman::makeDrink()
             cartController.moveToPos(i, forward);
 
             syrupDispensers.openValve(i);
-            delay(1000);
+            delay(tillWaterReachesGlass/2);
 
             float lastMessuredWeight = scaleController.getWeight();
             while (scaleController.getWeight() > lastMessuredWeight + 2) {
@@ -71,7 +72,7 @@ void RoboBarman::makeDrink()
     waterDispensers.routeState(requiredRoute, on);
 
     waterDispensers.compressorState(on);
-    delay(2500);
+    delay(tillWaterReachesGlass);
 
     float lastMessuredWeight = scaleController.getWeight();
 

@@ -17,6 +17,9 @@ const uint8_t d = 3;
 class RoboBarman
 {
 private:
+    const uint8_t cosmeticDelay {100};
+    const uint16_t tillGlassIsPlaced{1000};
+    const uint16_t tillWaterReachesGlass{2500};
     CartController cartController {};
     ProximitySensorController proximitySensorController {};
     ScaleController scaleController {};
