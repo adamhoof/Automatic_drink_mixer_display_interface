@@ -18,8 +18,6 @@ class DrinkConfigurator
 public:
     uint8_t drinkContents {};
     uint8_t* drinkContentsPtr {};
-    uint8_t requiredNumOfSyrups {};
-    uint8_t* requiredNumOfSyrupsPtr {};
 public:
     DrinkConfigurator();
 

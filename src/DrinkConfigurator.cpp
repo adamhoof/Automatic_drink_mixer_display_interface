@@ -2,15 +2,12 @@
 
 DrinkConfigurator::DrinkConfigurator()
         : drinkContents{B10000000},
-          drinkContentsPtr {&drinkContents},
-          requiredNumOfSyrups{0},
-          requiredNumOfSyrupsPtr{&requiredNumOfSyrups}
+          drinkContentsPtr {&drinkContents}
 {}
 
 void DrinkConfigurator::resetContents() const
 {
     *drinkContentsPtr = B10000000;
-    *requiredNumOfSyrupsPtr = 0;
 }
 
 void DrinkConfigurator::setDrinkContent(const uint8_t* receivedIdAndValue) const

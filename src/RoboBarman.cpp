@@ -18,16 +18,20 @@ void RoboBarman::prepareBar()
     displayInterfaceHandler.updateTextField(initTextField, "Initializing scale controller...");
     scaleController.setup();
     displayInterfaceHandler.updateProgressBar(initProgressBar, "25");
+    delay(100);
     displayInterfaceHandler.updateTextField(initTextField, "Initializing cart controller...");
     cartController.setup();
     cartController.calibrate();
     displayInterfaceHandler.updateProgressBar(initProgressBar, "25");
+    delay(100);
     displayInterfaceHandler.updateTextField(initTextField, "Initializing syrup dispensers...");
     syrupDispensers.setup();
     displayInterfaceHandler.updateProgressBar(initProgressBar, "25");
-    displayInterfaceHandler.updateTextField(initTextField, "Initializing syrup dispensers...");
+    delay(100);
+    displayInterfaceHandler.updateTextField(initTextField, "Initializing water dispensers...");
     waterDispensers.setup();
     displayInterfaceHandler.updateProgressBar(initProgressBar, "25");
+    delay(100);
 }
 
 void RoboBarman::acceptDrinkOrder()
@@ -43,7 +47,6 @@ void RoboBarman::makeDrink()
 {
     for (int i = 0; i < 4; i++) {
         if (bitRead(*drinkConfer.drinkContentsPtr, i + 1)) {
-            *drinkConfer.requiredNumOfSyrupsPtr += 1;
             cartController.moveToPos(i, forward);
 
             syrupDispensers.openValve(i);
@@ -57,14 +60,8 @@ void RoboBarman::makeDrink()
             syrupDispensers.closeValve(i);
 
         }
-        Serial.println("After valving");
-        Serial.println(scaleController.getWeight());
-
-        Serial.println(200-*drinkConfer.requiredNumOfSyrupsPtr*30);
     }
     cartController.moveToPos(calibValidate, backward);
-
-    //TODO tare the scale here?
 
     uint8_t requiredRoute {};
 
@@ -77,15 +74,13 @@ void RoboBarman::makeDrink()
     delay(2500);
 
     float lastMessuredWeight = scaleController.getWeight();
-    while (scaleController.getWeight() > lastMessuredWeight + 2 && lastMessuredWeight <= 200-*drinkConfer.requiredNumOfSyrupsPtr*30) {
+
+    while (scaleController.getWeight() > lastMessuredWeight + 2 && lastMessuredWeight <= 200) {
         lastMessuredWeight = scaleController.getWeight();
     }
     waterDispensers.compressorState(off);
 
     waterDispensers.routeState(requiredRoute, off);
-
-    Serial.println("After comping");
-    Serial.println(scaleController.getWeight());
 
     while (proximitySensorController.objectIsPresent()) {
         //todo DISPLAY OUTPUT: odeberte napoj
