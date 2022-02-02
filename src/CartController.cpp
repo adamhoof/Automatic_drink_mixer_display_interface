@@ -12,11 +12,6 @@ void CartController::setup()
     pinMode(cart.endSwitchPin, INPUT);
 }
 
-void CartController::setStepDelay(const uint8_t& stepDel)
-{
-    cart.stepDelay = stepDel;
-}
-
 void CartController::setDir(const bool& dir)
 {
     digitalWrite(cart.dirPin, dir);
@@ -31,8 +26,8 @@ void CartController::setDir(const bool& dir)
 
 void CartController::calibrate()
 {
-    rerunCalib:; // recursive function call ended up somehow runing multiple
-    // functions at once, use goto instead:(
+    rerunCalib:; // recursive function call ended up somehow running multiple
+    // functions at once, use goto instead :(
     setDir(backward);
     allowMovement();
     while (!isInitPos()) {
@@ -47,13 +42,13 @@ void CartController::calibrate()
             goto rerunCalib;
         }
     }
-    cart.pos = 0;
+    setPos(0);
     allowMovement();
     moveToPos(calibValidate, forward);
     blockMovement();
-    while (isInitPos()) {
-        // todo vypsat na display ze ma pustit switch
-    }
+
+    while (isInitPos()) {} //wait until the switch is released
+
     allowMovement();
     moveToPos(startPos, backward);
     stopBullyingEndSwitch();
@@ -89,8 +84,8 @@ void CartController::moveToPos(uint8_t posIndex, const bool& dir)
     blockMovement();
 }
 
-void CartController::fukDaSwitch() const { //ensures there are no false switch readings, resulting in cart just goin' crazy
-
+void CartController::fukDaSwitch() const //ensures there are no false switch readings, results in cart just goin' crazy
+{
     for (int i = 0; i < 120; ++i) {
         move();
     }
@@ -116,4 +111,9 @@ void CartController::blockMovement() const
 void CartController::allowMovement() const
 {
     digitalWrite(cart.motorEnablePin, HIGH);
+}
+
+void CartController::setPos(int32_t posToSet)
+{
+    cart.pos = posToSet;
 }

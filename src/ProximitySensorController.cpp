@@ -6,7 +6,7 @@ void ProximitySensorController::setup()
     pinMode(proximitySensor.trigPin, OUTPUT);
 }
 
-unsigned long ProximitySensorController::sendPulses()
+unsigned long ProximitySensorController::sendPulse()
 {
     digitalWrite(proximitySensor.trigPin, LOW);
     delayMicroseconds(2);
@@ -23,27 +23,33 @@ double ProximitySensorController::convertPulseToCm(unsigned long pulse)
 
 double ProximitySensorController::getProximity()
 {
-    return convertPulseToCm(sendPulses());
+    return convertPulseToCm(sendPulse());
 }
 
-bool ProximitySensorController::objectIsPresent()
+bool ProximitySensorController::objectIsPresent(uint8_t numOfSamples)
 {
-    const uint8_t validationSamplesSize = 15;
-    const uint8_t median = (validationSamplesSize + 1) / 2;
-    double proximityValidationSamples[validationSamplesSize];
-#define samplesMedian proximityValidationSamples[median]
+    uint8_t medianIndex;
 
-    for (double& proximity: proximityValidationSamples) {
+    if (numOfSamples % 2 == 0) {
+        medianIndex = (numOfSamples) / 2;
+    } else {
+        medianIndex = (numOfSamples+1) / 2;
+    }
+
+    double proximitySamples[numOfSamples];
+
+#define samplesMedian proximitySamples[medianIndex]
+
+    for (double& proximity: proximitySamples) {
         proximity = getProximity();
         delay(10);
     }
-    ace_sorting::shellSortKnuth(proximityValidationSamples, validationSamplesSize);
+    ace_sorting::shellSortKnuth(proximitySamples, numOfSamples);
 
     if (samplesMedian > 0 && samplesMedian < 9.5) {
         return true;
     } else if (samplesMedian > 9.5 && samplesMedian < 900) {
         return false;
-    } else {
-        return false;
     }
+    return false;
 }

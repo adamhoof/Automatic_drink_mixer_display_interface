@@ -23,7 +23,7 @@ public:
 
     void setup();
 
-    uint8_t* getDrinkData();
+    uint8_t* getContentUpdate();
 
     void changePage(const String& page);
 

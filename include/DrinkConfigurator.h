@@ -21,7 +21,7 @@ public:
 public:
     DrinkConfigurator();
 
-    void setDrinkContent(const uint8_t* receivedIdAndValue) const;
+    void setContent(const uint8_t* receivedIdAndValue) const;
 
     bool configurationComplete() const;
 

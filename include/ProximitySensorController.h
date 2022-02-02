@@ -10,11 +10,11 @@ private:
 public:
     void setup();
 
-    unsigned long sendPulses();
+    unsigned long sendPulse();
 
     double convertPulseToCm(unsigned long proximity);
 
     double getProximity();
 
-    bool objectIsPresent();
+    bool objectIsPresent(uint8_t numOfSamples);
 };

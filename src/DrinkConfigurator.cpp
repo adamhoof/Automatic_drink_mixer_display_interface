@@ -10,7 +10,7 @@ void DrinkConfigurator::resetContents() const
     *drinkContentsPtr = B10000000;
 }
 
-void DrinkConfigurator::setDrinkContent(const uint8_t* receivedIdAndValue) const
+void DrinkConfigurator::setContent(const uint8_t* receivedIdAndValue) const
 {
     uint8_t receivedId = receivedIdAndValue[idPos];
     uint8_t receivedValue = receivedIdAndValue[valPos];

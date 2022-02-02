@@ -14,7 +14,7 @@ void DisplayInterfaceHandler::setup()
     changePage(initPage);
 }
 
-uint8_t* DisplayInterfaceHandler::getDrinkData()
+uint8_t* DisplayInterfaceHandler::getContentUpdate()
 {
     static uint8_t dataBuffer[contentsBuffLen];
 

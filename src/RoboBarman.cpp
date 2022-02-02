@@ -7,7 +7,7 @@ void RoboBarman::prepareBar()
     displayInterfaceHandler.setup();
     proximitySensorController.setup();
     bool sentPageUpdate = false;
-    while (!proximitySensorController.objectIsPresent()) {
+    while (!proximitySensorController.objectIsPresent(16)) {
         if (sentPageUpdate) {
             continue;
         }
@@ -40,7 +40,7 @@ void RoboBarman::acceptDrinkOrder()
     displayInterfaceHandler.changePage(createDrinkPage);
 
     while (!drinkConfer.configurationComplete()) {
-        drinkConfer.setDrinkContent(displayInterfaceHandler.getDrinkData());
+        drinkConfer.setContent(displayInterfaceHandler.getContentUpdate());
     };
 }
 
@@ -82,19 +82,27 @@ void RoboBarman::makeDrink()
     waterDispensers.compressorState(off);
 
     waterDispensers.routeState(requiredRoute, off);
-
-    while (proximitySensorController.objectIsPresent()) {
-        //todo DISPLAY OUTPUT: odeberte napoj
-    }
-    cartController.calibrate();
 }
 
 void RoboBarman::serveDrink()
-{}
+{
+    while (proximitySensorController.objectIsPresent(16)) {
+        bool sentPageUpdate = false;
+        while (proximitySensorController.objectIsPresent(16)) {
+            if (sentPageUpdate) {
+                continue;
+            }
+            displayInterfaceHandler.changePage(placeObjectPage);
+            sentPageUpdate = true;
+        }
+    }
+}
 
 void RoboBarman::cleanupBar()
 {
-    displayInterfaceHandler.changePage(createDrinkPage);
-
     drinkConfer.resetContents();
+
+    cartController.calibrate();
+
+    displayInterfaceHandler.changePage(createDrinkPage);
 }

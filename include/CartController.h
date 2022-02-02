@@ -21,8 +21,6 @@ public:
 
     void setup();
 
-    void setStepDelay(const uint8_t& stepDel);
-
     void calibrate();
 
     void setDir(const bool& dir);
@@ -40,4 +38,6 @@ public:
     void blockMovement() const;
 
     void allowMovement() const;
+
+    void setPos(int32_t posToSet);
 };
