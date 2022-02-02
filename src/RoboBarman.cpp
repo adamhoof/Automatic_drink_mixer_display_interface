@@ -18,20 +18,18 @@ void RoboBarman::prepareBar()
     displayInterfaceHandler.updateTextField(initTextField, "Initializing scale controller...");
     delay(tillGlassIsPlaced);
     scaleController.setup();
-    displayInterfaceHandler.updateProgressBar(initProgressBar, "25");
+    displayInterfaceHandler.updateProgressBar(initProgressBar, "33");
     delay(cosmeticDelay);
     displayInterfaceHandler.updateTextField(initTextField, "Initializing cart controller...");
     cartController.setup();
     cartController.calibrate();
-    displayInterfaceHandler.updateProgressBar(initProgressBar, "25");
+    displayInterfaceHandler.updateProgressBar(initProgressBar, "33");
     delay(cosmeticDelay);
     displayInterfaceHandler.updateTextField(initTextField, "Initializing syrup dispensers...");
     syrupDispensers.setup();
-    displayInterfaceHandler.updateProgressBar(initProgressBar, "25");
     delay(cosmeticDelay);
-    displayInterfaceHandler.updateTextField(initTextField, "Initializing water dispensers...");
+    displayInterfaceHandler.updateProgressBar(initProgressBar, "33");
     waterDispensers.setup();
-    displayInterfaceHandler.updateProgressBar(initProgressBar, "25");
     delay(cosmeticDelay);
 }
 
