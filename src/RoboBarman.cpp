@@ -86,18 +86,8 @@ void RoboBarman::serveDrink()
     while (proximitySensorController.objectIsPresent(16)) {}
 }
 
-void RoboBarman::cleanupBar()
+void RoboBarman::closeBar()
 {
-    drinkConfer.resetContents();
-
-    cartController.calibrate();
-
-    displayInterfaceHandler.ardDisplaySerial.print(placeObjectPage);
-    displayInterfaceHandler.writeUselessBytes();
-
-    while (!proximitySensorController.objectIsPresent(16)) {}
-    scaleController.tare();
-
-    displayInterfaceHandler.ardDisplaySerial.print(createDrinkPage);
-    displayInterfaceHandler.writeUselessBytes();
+    void(* resetFunc) (void) = 0;
+    resetFunc();
 }

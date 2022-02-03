@@ -5,6 +5,8 @@ RoboBarman roboBarman{};
 void setup()
 {
     roboBarman.prepareBar();
+    pinMode(7, OUTPUT);
+    digitalWrite(7, HIGH);
 }
 
 void loop()
@@ -12,5 +14,5 @@ void loop()
     roboBarman.acceptDrinkOrder();
     roboBarman.makeDrink();
     roboBarman.serveDrink();
-    roboBarman.cleanupBar();
+    roboBarman.closeBar();
 }
