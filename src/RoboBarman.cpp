@@ -41,7 +41,7 @@ void RoboBarman::acceptDrinkOrder()
 void RoboBarman::makeDrink()
 {
     for (int i = 0; i < 4; i++) {
-        if (bitRead(*drinkConfer.drinkContentsPtr, i + 1)) {
+        if (bitRead(*drinkConfer.getAllContents(), i + 1)) {
             cartController.moveToPos(i, forward);
 
             syrupDispensers.openValve(i);
@@ -58,9 +58,9 @@ void RoboBarman::makeDrink()
     }
     cartController.moveToPos(calibValidate, backward);
 
-    uint8_t requiredRoute {};
+    uint8_t requiredRoute;
 
-    bitRead(*drinkConfer.drinkContentsPtr, idWater) ? requiredRoute = RIGHT
+    bitRead(*drinkConfer.getAllContents(), idWater) ? requiredRoute = RIGHT
                                                     : requiredRoute = LEFT;
 
     waterDispensers.routeState(requiredRoute, on);
@@ -81,7 +81,7 @@ void RoboBarman::makeDrink()
 void RoboBarman::serveDrink()
 {
     displayInterfaceHandler.ardDisplaySerial.print(takeDrinkPage); //I don't know why the hell do I have to use this instead
-    displayInterfaceHandler.writeUselessBytes(); //of my function changePage that literary does the same and works till this moment in code but suddenly stops
+    displayInterfaceHandler.writeUselessBytes(); //of my function changePage that literary does the same and works till this moment in code
 
     while (proximitySensorController.objectIsPresent(16)) {}
 }

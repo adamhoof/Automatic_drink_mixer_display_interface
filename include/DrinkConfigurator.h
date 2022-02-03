@@ -16,8 +16,8 @@
 class DrinkConfigurator
 {
 public:
-    uint8_t drinkContents {};
-    uint8_t* drinkContentsPtr {};
+    uint8_t contents {};
+    uint8_t* contentsPtr {};
 public:
     DrinkConfigurator();
 
@@ -26,4 +26,6 @@ public:
     bool configurationComplete() const;
 
     void resetContents() const;
+
+    uint8_t* getAllContents();
 };
