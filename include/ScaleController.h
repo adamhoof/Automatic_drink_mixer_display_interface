@@ -12,4 +12,6 @@ public:
     void setup();
 
     float getWeight();
+
+    void tare();
 };

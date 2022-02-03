@@ -6,14 +6,10 @@ void RoboBarman::prepareBar()
 {
     displayInterfaceHandler.setup();
     proximitySensorController.setup();
-    bool sentPageUpdate = false;
-    while (!proximitySensorController.objectIsPresent(16)) {
-        if (sentPageUpdate) {
-            continue;
-        }
-        displayInterfaceHandler.changePage(placeObjectPage);
-        sentPageUpdate = true;
-    }
+    displayInterfaceHandler.changePage(placeObjectPage);
+
+    while (!proximitySensorController.objectIsPresent(16)) {}
+
     displayInterfaceHandler.changePage(initPage);
     displayInterfaceHandler.updateTextField(initTextField, "Initializing scale controller...");
     delay(tillGlassIsPlaced);
@@ -49,7 +45,7 @@ void RoboBarman::makeDrink()
             cartController.moveToPos(i, forward);
 
             syrupDispensers.openValve(i);
-            delay(tillWaterReachesGlass/2);
+            delay(tillWaterReachesGlass/1.5);
 
             float lastMessuredWeight = scaleController.getWeight();
             while (scaleController.getWeight() > lastMessuredWeight + 2) {
@@ -74,7 +70,7 @@ void RoboBarman::makeDrink()
 
     float lastMessuredWeight = scaleController.getWeight();
 
-    while (scaleController.getWeight() > lastMessuredWeight + 2 && lastMessuredWeight <= 200) {
+    while (scaleController.getWeight() > lastMessuredWeight + 2 && lastMessuredWeight <= 250) {
         lastMessuredWeight = scaleController.getWeight();
     }
     waterDispensers.compressorState(off);
@@ -84,16 +80,10 @@ void RoboBarman::makeDrink()
 
 void RoboBarman::serveDrink()
 {
-    while (proximitySensorController.objectIsPresent(16)) {
-        bool sentPageUpdate = false;
-        while (proximitySensorController.objectIsPresent(16)) {
-            if (sentPageUpdate) {
-                continue;
-            }
-            displayInterfaceHandler.changePage(placeObjectPage);
-            sentPageUpdate = true;
-        }
-    }
+    displayInterfaceHandler.ardDisplaySerial.print(takeDrinkPage); //I don't know why the hell do I have to use this instead
+    displayInterfaceHandler.writeUselessBytes(); //of my function changePage that literary does the same and works till this moment in code but suddenly stops
+
+    while (proximitySensorController.objectIsPresent(16)) {}
 }
 
 void RoboBarman::cleanupBar()
@@ -102,5 +92,12 @@ void RoboBarman::cleanupBar()
 
     cartController.calibrate();
 
-    displayInterfaceHandler.changePage(createDrinkPage);
+    displayInterfaceHandler.ardDisplaySerial.print(placeObjectPage);
+    displayInterfaceHandler.writeUselessBytes();
+
+    while (!proximitySensorController.objectIsPresent(16)) {}
+    scaleController.tare();
+
+    displayInterfaceHandler.ardDisplaySerial.print(createDrinkPage);
+    displayInterfaceHandler.writeUselessBytes();
 }

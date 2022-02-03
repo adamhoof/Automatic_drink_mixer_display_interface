@@ -9,6 +9,8 @@
 #define initTextField "initTxt"
 #define initProgressBar "initProgress"
 #define createDrinkPage "page pCreateDrink"
+#define takeDrinkPage "page pTakeDrink"
+#define prepairingDrinkPage "page pPrepingDrink"
 
 class DisplayInterfaceHandler
 {

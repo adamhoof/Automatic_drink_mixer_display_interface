@@ -23,3 +23,7 @@ float ScaleController::getWeight()
     }
     return scale.getData();
 }
+
+void ScaleController::tare(){
+    scale.tare();
+}

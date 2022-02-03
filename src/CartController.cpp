@@ -86,7 +86,7 @@ void CartController::moveToPos(uint8_t posIndex, const bool& dir)
 
 void CartController::fukDaSwitch() const //ensures there are no false switch readings, results in cart just goin' crazy
 {
-    for (int i = 0; i < 150; ++i) {
+    for (int i = 0; i < 140; ++i) {
         move();
     }
 }
