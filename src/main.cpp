@@ -5,8 +5,6 @@ RoboBarman roboBarman{};
 void setup()
 {
     roboBarman.prepareBar();
-    pinMode(7, OUTPUT);
-    digitalWrite(7, HIGH);
 }
 
 void loop()
