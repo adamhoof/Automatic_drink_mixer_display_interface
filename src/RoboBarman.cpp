@@ -44,7 +44,7 @@ void RoboBarman::makeDrink()
         if (bitRead(*drinkConfer.getAllContents(), i + 1)) {
             cartController.moveToPos(i, FORWARD);
 
-            syrupDispensers.openValve(i);
+            syrupDispensers.open(i);
             delay(tillWaterReachesGlass/1.5);
 
             float lastMessuredWeight = scaleController.getWeight();
@@ -52,7 +52,9 @@ void RoboBarman::makeDrink()
                 lastMessuredWeight = scaleController.getWeight();
             }
 
-            syrupDispensers.closeValve(i);
+            syrupDispensers.close(i);
+            delay(200);
+            syrupDispensers.refill(i);
 
         }
     }

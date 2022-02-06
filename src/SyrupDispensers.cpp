@@ -5,24 +5,33 @@ SyrupDispensers::SyrupDispensers() : dispensers {&servo, &servo1, &servo2, &serv
 
 void SyrupDispensers::setup()
 {
-    for (int i = 0; i < 4; ++i) {
-        dispensers[i]->attach(pins[i]);
-        dispensers[i]->write(30);
+    for (int dispenserIndex = 0; dispenserIndex < 4; ++dispenserIndex) {
+        dispensers[dispenserIndex]->attach(pins[dispenserIndex]);
+        dispensers[dispenserIndex]->write(fullyClosed);
     }
 }
 
-void SyrupDispensers::openValve(uint8_t dispenserIndex)
+void SyrupDispensers::open(uint8_t dispenserIndex)
 {
-    for (int i = 30; i < 130; ++i) {
-        dispensers[dispenserIndex]->write(i);
+    for (int pos = fullyClosed; pos < fullyOpen; ++pos) {
+        dispensers[dispenserIndex]->write(pos);
         delay(5);
     }
 }
 
-void SyrupDispensers::closeValve(uint8_t dispenser)
+void SyrupDispensers::close(uint8_t dispenserIndex)
 {
-    for (int i = 130; i > 30; --i) {
-        dispensers[dispenser]->write(i);
+    for (int pos = fullyOpen; pos > fullyClosed; --pos) {
+        dispensers[dispenserIndex]->write(pos);
         delay(5);
     }
+}
+
+void SyrupDispensers::refill(uint8_t dispenserIndex) //sometimes, after dispensing syrup, it did not refill automatically, but the 35ml syrup container stood empty.
+{                                                   // this function prevents that behavior, so the container is always filled up with new syrup
+    for (int pos = fullyClosed; pos < refillPos; ++pos) {
+        dispensers[dispenserIndex]->write(pos);
+        delay(5);
+    }
+    close(dispenserIndex);
 }

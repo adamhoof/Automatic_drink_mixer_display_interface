@@ -10,12 +10,17 @@ private:
     Servo servo3 {6};
     Servo* dispensers[4];
     const uint8_t pins[4];
+    const uint8_t fullyOpen {130};
+    const uint8_t fullyClosed {30};
+    const uint8_t refillPos{70};
 public:
     SyrupDispensers();
 
     void setup();
 
-    void openValve(uint8_t dispenserIndex);
+    void open(uint8_t dispenserIndex);
 
-    void closeValve(uint8_t dispenser);
+    void close(uint8_t dispenserIndex);
+
+    void refill(uint8_t dispenserIndex);
 };
