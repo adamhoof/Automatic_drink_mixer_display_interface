@@ -3,12 +3,12 @@
 #include <Arduino.h>
 #include "Cart.h"
 
-#define forward true
-#define backward false
+#define FORWARD true
+#define BACKWARD false
 #define RIGHT 1
 #define LEFT 2
 #define startPos 4
-#define calibValidate 5
+#define lilAwayFromSwitch 5
 
 class CartController
 {

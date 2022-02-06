@@ -15,9 +15,9 @@ void CartController::setup()
 void CartController::setDir(const bool& dir)
 {
     digitalWrite(cart.dirPin, dir);
-    if (dir == forward) {
+    if (dir == FORWARD) {
         cart.dir = 1;
-    } else if (dir == backward) {
+    } else if (dir == BACKWARD) {
         cart.dir = -1;
     } else {
         return;
@@ -28,7 +28,7 @@ void CartController::calibrate()
 {
     rerunCalib:; // recursive function call ended up somehow running multiple
     // functions at once, use goto instead :(
-    setDir(backward);
+    setDir(BACKWARD);
     allowMovement();
     while (!isInitPos()) {
         move();
@@ -44,17 +44,17 @@ void CartController::calibrate()
     }
     setPos(0);
     allowMovement();
-    moveToPos(calibValidate, forward);
+    moveToPos(lilAwayFromSwitch, FORWARD);
     blockMovement();
 
     while (isInitPos()) {} //wait until the switch is released
 
     allowMovement();
-    moveToPos(startPos, backward);
+    moveToPos(startPos, BACKWARD);
     stopBullyingEndSwitch();
     if (isInitPos()) {
-        setDir(forward);
-        moveToPos(calibValidate, forward);
+        setDir(FORWARD);
+        moveToPos(lilAwayFromSwitch, FORWARD);
         return;
     }
     goto rerunCalib;
@@ -72,11 +72,11 @@ void CartController::moveToPos(uint8_t posIndex, const bool& dir)
 {
     allowMovement();
     setDir(dir);
-    if (dir == forward) {
+    if (dir == FORWARD) {
         for (; cart.pos < positions[posIndex]; cart.pos += cart.dir) {
             move();
         }
-    } else if (dir == backward) {
+    } else if (dir == BACKWARD) {
         for (; cart.pos > positions[posIndex]; cart.pos += cart.dir) {
             move();
         }

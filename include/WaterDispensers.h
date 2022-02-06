@@ -2,8 +2,8 @@
 
 #include <Arduino.h>
 
-#define off false
-#define on true
+#define OFF false
+#define ON true
 
 class WaterDispensers
 {

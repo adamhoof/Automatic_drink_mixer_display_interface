@@ -42,7 +42,7 @@ void RoboBarman::makeDrink()
 {
     for (int i = 0; i < 4; i++) {
         if (bitRead(*drinkConfer.getAllContents(), i + 1)) {
-            cartController.moveToPos(i, forward);
+            cartController.moveToPos(i, FORWARD);
 
             syrupDispensers.openValve(i);
             delay(tillWaterReachesGlass/1.5);
@@ -56,16 +56,16 @@ void RoboBarman::makeDrink()
 
         }
     }
-    cartController.moveToPos(calibValidate, backward);
+    cartController.moveToPos(lilAwayFromSwitch, BACKWARD);
 
     uint8_t requiredRoute;
 
     bitRead(*drinkConfer.getAllContents(), idWater) ? requiredRoute = RIGHT
                                                     : requiredRoute = LEFT;
 
-    waterDispensers.routeState(requiredRoute, on);
+    waterDispensers.routeState(requiredRoute, ON);
 
-    waterDispensers.compressorState(on);
+    waterDispensers.compressorState(ON);
     delay(tillWaterReachesGlass);
 
     float lastMessuredWeight = scaleController.getWeight();
@@ -73,9 +73,9 @@ void RoboBarman::makeDrink()
     while (scaleController.getWeight() > lastMessuredWeight + 2 && lastMessuredWeight <= 250) {
         lastMessuredWeight = scaleController.getWeight();
     }
-    waterDispensers.compressorState(off);
+    waterDispensers.compressorState(OFF);
 
-    waterDispensers.routeState(requiredRoute, off);
+    waterDispensers.routeState(requiredRoute, OFF);
 }
 
 void RoboBarman::serveDrink()
@@ -88,6 +88,6 @@ void RoboBarman::serveDrink()
 
 void RoboBarman::closeBar()
 {
-    void(* resetFunc) (void) = 0;
+    void(* resetFunc) (void) = nullptr;
     resetFunc();
 }
