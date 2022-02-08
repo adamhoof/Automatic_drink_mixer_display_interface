@@ -11,7 +11,7 @@ public:
 
     void setup();
 
-    float getWeight();
+    int getWeight();
 
     void tare();
 };

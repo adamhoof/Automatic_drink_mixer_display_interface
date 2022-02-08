@@ -14,7 +14,7 @@ void ScaleController::setup()
     scale.setCalFactor(calibrationValue);
 }
 
-float ScaleController::getWeight()
+int ScaleController::getWeight()
 {
     scale.update();
     for (int i = 0; i < 4000; ++i) {
