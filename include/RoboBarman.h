@@ -18,8 +18,11 @@ class RoboBarman
 {
 public:
     const uint8_t cosmeticDelay {100};
-    const uint16_t tillGlassIsPlaced{1000};
-    const uint16_t tillWaterReachesGlass{2500};
+    const uint16_t tillGlassIsPlaced{1500};
+    const uint16_t tillWaterReachesGlass{3500};
+    const uint16_t tillSyrupReachesGlass{2000};
+    const uint8_t offset{2};
+    const uint8_t finalDrinkWeight{250};
     CartController cartController {};
     ProximitySensorController proximitySensorController {};
     ScaleController scaleController {};
@@ -39,5 +42,11 @@ public:
     void serveDrink();
 
     void closeBar();
+
+private:
+    bool syrupSupplyIsEmpty(int initWeight, int lastMessuredWeight);
+    bool pouringSyrup(int lastMessuredWeight);
+    bool waterAmountNotSufficient(int lastMessuredWeight);
+    bool waterSupplyIsEmpty(int initWeight, int lastMessuredWeight);
 };
 

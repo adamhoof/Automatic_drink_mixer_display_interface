@@ -2,6 +2,26 @@
 
 RoboBarman::RoboBarman() = default;
 
+bool RoboBarman::syrupSupplyIsEmpty(int initWeight, int lastMessuredWeight)
+{
+    return initWeight + offset > lastMessuredWeight;
+}
+
+bool RoboBarman::pouringSyrup(int lastMessuredWeight)
+{
+    return scaleController.getWeight() > lastMessuredWeight + offset;
+}
+
+bool RoboBarman::waterAmountNotSufficient(int lastMessuredWeight)
+{
+    return scaleController.getWeight() > lastMessuredWeight && lastMessuredWeight <= finalDrinkWeight;
+}
+
+bool RoboBarman::waterSupplyIsEmpty(int initWeight, int lastMessuredWeight)
+{
+    return initWeight + offset > lastMessuredWeight || lastMessuredWeight < finalDrinkWeight - offset;
+}
+
 void RoboBarman::prepareBar()
 {
     displayInterfaceHandler.setup();
@@ -45,19 +65,27 @@ void RoboBarman::makeDrink()
             cartController.moveToPos(i, FORWARD);
 
             syrupDispensers.open(i);
-            delay(tillWaterReachesGlass/1.5);
+            delay(tillSyrupReachesGlass);
 
-            int lastMessuredWeight = scaleController.getWeight();
-            while (scaleController.getWeight() > lastMessuredWeight + 2) {
+            int initWeight = scaleController.getWeight();
+            int lastMessuredWeight = initWeight;
+
+            while (pouringSyrup(lastMessuredWeight)) {
                 lastMessuredWeight = scaleController.getWeight();
-            }
+            };
 
             syrupDispensers.close(i);
             delay(200);
-            syrupDispensers.refill(i);
 
+            if (syrupSupplyIsEmpty(initWeight, lastMessuredWeight)) {
+                Serial.println("Syrup empty");
+                //todo display output: check syrup supply
+                continue;
+            }
+            syrupDispensers.refill(i);
         }
     }
+
     cartController.moveToPos(lilAwayFromSwitch, BACKWARD);
 
     uint8_t requiredRoute;
@@ -67,17 +95,24 @@ void RoboBarman::makeDrink()
 
     waterDispensers.routeState(requiredRoute, ON);
 
+    int initWeight = scaleController.getWeight();
+    int lastMessuredWeight = initWeight;
+
     waterDispensers.compressorState(ON);
     delay(tillWaterReachesGlass);
 
-    int lastMessuredWeight = scaleController.getWeight();
-
-    while (scaleController.getWeight() > lastMessuredWeight + 2 && lastMessuredWeight <= 250) {
+    while(waterAmountNotSufficient(lastMessuredWeight)){
         lastMessuredWeight = scaleController.getWeight();
     }
+
     waterDispensers.compressorState(OFF);
 
     waterDispensers.routeState(requiredRoute, OFF);
+
+    if (waterSupplyIsEmpty(initWeight, lastMessuredWeight)) {
+        //todo display output: check the water supply
+        Serial.println("Water empty");
+    }
 }
 
 void RoboBarman::serveDrink()
@@ -90,6 +125,6 @@ void RoboBarman::serveDrink()
 
 void RoboBarman::closeBar()
 {
-    void(* resetFunc) (void) = nullptr;
+    void (* resetFunc)(void) = nullptr;
     resetFunc();
 }
