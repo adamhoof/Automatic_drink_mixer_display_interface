@@ -47,7 +47,7 @@ void RoboBarman::makeDrink()
             syrupDispensers.open(i);
             delay(tillWaterReachesGlass/1.5);
 
-            float lastMessuredWeight = scaleController.getWeight();
+            int lastMessuredWeight = scaleController.getWeight();
             while (scaleController.getWeight() > lastMessuredWeight + 2) {
                 lastMessuredWeight = scaleController.getWeight();
             }
@@ -70,7 +70,7 @@ void RoboBarman::makeDrink()
     waterDispensers.compressorState(ON);
     delay(tillWaterReachesGlass);
 
-    float lastMessuredWeight = scaleController.getWeight();
+    int lastMessuredWeight = scaleController.getWeight();
 
     while (scaleController.getWeight() > lastMessuredWeight + 2 && lastMessuredWeight <= 250) {
         lastMessuredWeight = scaleController.getWeight();
