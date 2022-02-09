@@ -22,6 +22,12 @@ bool RoboBarman::waterSupplyIsEmpty(int initWeight, int lastMessuredWeight)
     return initWeight + offset > lastMessuredWeight || lastMessuredWeight < finalDrinkWeight - offset;
 }
 
+void RoboBarman::closeBar()
+{
+    void (* resetFunc)(void) = nullptr;
+    resetFunc();
+}
+
 void RoboBarman::prepareBar()
 {
     displayInterfaceHandler.setup();
@@ -61,6 +67,7 @@ void RoboBarman::acceptDrinkOrder()
 void RoboBarman::makeDrink()
 {
     uint8_t divisionFactor = drinkConfer.calculateNumberOfContents();
+    uint8_t errorsToBeDisplayed[5] {};
 
     for (int i = 0; i < 4; i++) {
         if (bitRead(*drinkConfer.getAllContents(), i + 1)) {
@@ -77,6 +84,7 @@ void RoboBarman::makeDrink()
             };
 
             if (syrupSupplyIsEmpty(initWeight, lastMessuredWeight)) {
+                errorsToBeDisplayed[i] = 1;
             }
             syrupDispensers.close(i);
             delay(200);
@@ -116,9 +124,24 @@ void RoboBarman::makeDrink()
     displayInterfaceHandler.writeUselessBytes();
 
     if (waterSupplyIsEmpty(initWeight, lastMessuredWeight)) {
+        errorsToBeDisplayed[4] = 1;
     }
-    while(proximitySensorController.objectIsPresent(16)){}
-    closeBar();
+
+    uint8_t numOfErrors{0};
+
+    for (uint8_t errorIndex = 0; errorIndex < 5; errorIndex++) {
+        if (errorsToBeDisplayed[errorIndex] == 1) {
+            displayInterfaceHandler.ardDisplaySerial.print(errors[errorIndex]);
+            displayInterfaceHandler.writeUselessBytes();
+            delay(10);
+            numOfErrors++;
+        }
+    }
+
+    if (numOfErrors != 0) {
+        while (proximitySensorController.objectIsPresent(32)) {}
+        closeBar();
+    }
 }
 
 void RoboBarman::serveDrink()
@@ -127,11 +150,5 @@ void RoboBarman::serveDrink()
             takeDrinkPage); //I don't know why the hell do I have to use this instead
     displayInterfaceHandler.writeUselessBytes(); //of my function changePage that literary does the same and works till this moment in code
 
-    while (proximitySensorController.objectIsPresent(16)) {}
-}
-
-void RoboBarman::closeBar()
-{
-    void (* resetFunc)(void) = nullptr;
-    resetFunc();
+    while (proximitySensorController.objectIsPresent(32)) {}
 }

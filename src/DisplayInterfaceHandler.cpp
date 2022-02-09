@@ -11,6 +11,7 @@ void DisplayInterfaceHandler::changePage(const String& page)
 void DisplayInterfaceHandler::setup()
 {
     ardDisplaySerial.begin(baudRate);
+    delay(100);
     changePage(initPage);
 }
 

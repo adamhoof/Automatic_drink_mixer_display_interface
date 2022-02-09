@@ -55,9 +55,9 @@ uint8_t* DrinkConfigurator::getAllContents()
 
 uint8_t DrinkConfigurator::calculateNumberOfContents()
 {
-    uint8_t numOfContents {0};
+    uint8_t numOfContents {1};
 
-    for (int i = 0; i < 6; ++i) {
+    for (int i = 0; i < 4; ++i) {
         if (bitRead(*getAllContents(), i + 1)) {
             numOfContents++;
         }
