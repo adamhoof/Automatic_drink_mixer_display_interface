@@ -18,10 +18,11 @@ private:
     const uint16_t tillSyrupReachesGlass {2000};
     const uint8_t offset {2};
     const uint8_t finalDrinkWeight {250};
-    const String prepProgressUpdates[6] {"prepProgress.val+=0", "prepProgress.val+=100", "prepProgress.val+=50", "prepProgress.val+=33",
+    const String prepProgressUpdates[6] {"prepProgress.val+=0", "prepProgress.val+=100", "prepProgress.val+=50",
+                                         "prepProgress.val+=33",
                                          "prepProgress.val+=25", "prepProgress.val+=20"};
-    const String errors [5] =  {"a.txt=""\"""EMPTY""\"", "b.txt=""\"""EMPTY""\"", "c.txt=""\"""EMPTY""\"",
-                                "d.txt=""\"""EMPTY""\"", "w.txt=""\"""EMPTY OR LOW""\""};
+    const String errors[5] = {"a.txt=""\"""EMPTY""\"", "b.txt=""\"""EMPTY""\"", "c.txt=""\"""EMPTY""\"",
+                              "d.txt=""\"""EMPTY""\"", "w.txt=""\"""EMPTY OR LOW""\""};
 
     CartController cartController {};
     ProximitySensorController proximitySensorController {};

@@ -127,7 +127,7 @@ void RoboBarman::makeDrink()
         errorsToBeDisplayed[4] = 1;
     }
 
-    uint8_t numOfErrors{0};
+    uint8_t numOfErrors {0};
 
     for (uint8_t errorIndex = 0; errorIndex < 5; errorIndex++) {
         if (errorsToBeDisplayed[errorIndex] == 1) {

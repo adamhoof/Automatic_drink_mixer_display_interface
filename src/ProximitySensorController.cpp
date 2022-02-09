@@ -33,7 +33,7 @@ bool ProximitySensorController::objectIsPresent(uint8_t numOfSamples)
     if (numOfSamples % 2 == 0) {
         medianIndex = (numOfSamples) / 2;
     } else {
-        medianIndex = (numOfSamples+1) / 2;
+        medianIndex = (numOfSamples + 1) / 2;
     }
 
     double proximitySamples[numOfSamples];

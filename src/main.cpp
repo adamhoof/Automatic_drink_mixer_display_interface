@@ -1,6 +1,6 @@
 #include "RoboBarman.h"
 
-RoboBarman roboBarman{};
+RoboBarman roboBarman {};
 
 void setup()
 {

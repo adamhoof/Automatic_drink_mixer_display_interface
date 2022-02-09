@@ -12,7 +12,7 @@ private:
     const uint8_t pins[4];
     const uint8_t fullyOpen {130};
     const uint8_t fullyClosed {30};
-    const uint8_t refillPos{70};
+    const uint8_t refillPos {70};
 public:
     SyrupDispensers();
 

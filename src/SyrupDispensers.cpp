@@ -27,7 +27,8 @@ void SyrupDispensers::close(uint8_t dispenserIndex)
     }
 }
 
-void SyrupDispensers::refill(uint8_t dispenserIndex) //sometimes, after dispensing syrup, it did not refill automatically, but the 35ml syrup container stood empty.
+void SyrupDispensers::refill(
+        uint8_t dispenserIndex) //sometimes, after dispensing syrup, it did not refill automatically, but the 35ml syrup container stood empty.
 {                                                   // this function prevents that behavior, so the container is always filled up with new syrup
     for (int pos = fullyClosed; pos < refillPos; ++pos) {
         dispensers[dispenserIndex]->write(pos);
