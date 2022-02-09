@@ -23,4 +23,8 @@ public:
     void close(uint8_t dispenserIndex);
 
     void refill(uint8_t dispenserIndex);
+
+    void detach(uint8_t dispenserIndex);
+
+    void attach(uint8_t dispenserIndex);
 };

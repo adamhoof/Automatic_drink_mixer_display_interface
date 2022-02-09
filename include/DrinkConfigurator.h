@@ -28,4 +28,6 @@ public:
     void resetContents() const;
 
     uint8_t* getAllContents();
+
+    uint8_t calculateNumberOfContents();
 };

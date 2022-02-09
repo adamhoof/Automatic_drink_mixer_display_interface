@@ -5,7 +5,6 @@ RoboBarman roboBarman{};
 void setup()
 {
     roboBarman.prepareBar();
-    Serial.begin(9600);
 }
 
 void loop()

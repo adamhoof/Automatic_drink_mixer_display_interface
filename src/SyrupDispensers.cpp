@@ -35,3 +35,13 @@ void SyrupDispensers::refill(uint8_t dispenserIndex) //sometimes, after dispensi
     }
     close(dispenserIndex);
 }
+
+void SyrupDispensers::detach(uint8_t dispenserIndex)
+{
+    dispensers[dispenserIndex]->detach();
+}
+
+void SyrupDispensers::attach(uint8_t dispenserIndex)
+{
+    dispensers[dispenserIndex]->attach(pins[dispenserIndex]);
+}

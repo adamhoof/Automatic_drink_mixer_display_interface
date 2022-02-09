@@ -9,11 +9,6 @@
 #include "SyrupDispensers.h"
 #include "WaterDispensers.h"
 
-const uint8_t a = 0;
-const uint8_t b = 1;
-const uint8_t c = 2;
-const uint8_t d = 3;
-
 class RoboBarman
 {
 public:
@@ -23,6 +18,9 @@ public:
     const uint16_t tillSyrupReachesGlass{2000};
     const uint8_t offset{2};
     const uint8_t finalDrinkWeight{250};
+    const String  syrupEmpty [4] {"a.txt=""\"""A EMPTY""\"", "b.txt=""\"""B EMPTY""\"", "c.txt=""\"""C EMPTY""\"", "d.txt=""\"""D EMPTY""\""};
+    const String prepProgressUpdates[5] {"prepProgress.val+=100", "prepProgress.val+=50", "prepProgress.val+=33", "prepProgress.val+=25", "prepProgress.val+=20"};
+    const String waterEmpty = "w.txt=""\"""WATER EMPTY OR RUNNING LOW""\"";
     CartController cartController {};
     ProximitySensorController proximitySensorController {};
     ScaleController scaleController {};

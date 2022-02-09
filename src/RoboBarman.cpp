@@ -60,6 +60,8 @@ void RoboBarman::acceptDrinkOrder()
 
 void RoboBarman::makeDrink()
 {
+    uint8_t divisionFactor = drinkConfer.calculateNumberOfContents();
+
     for (int i = 0; i < 4; i++) {
         if (bitRead(*drinkConfer.getAllContents(), i + 1)) {
             cartController.moveToPos(i, FORWARD);
@@ -74,15 +76,16 @@ void RoboBarman::makeDrink()
                 lastMessuredWeight = scaleController.getWeight();
             };
 
+            if (syrupSupplyIsEmpty(initWeight, lastMessuredWeight)) {
+            }
             syrupDispensers.close(i);
             delay(200);
-
-            if (syrupSupplyIsEmpty(initWeight, lastMessuredWeight)) {
-                Serial.println("Syrup empty");
-                //todo display output: check syrup supply
-                continue;
-            }
             syrupDispensers.refill(i);
+            syrupDispensers.detach(i);
+            delay(100);
+
+            displayInterfaceHandler.ardDisplaySerial.print(prepProgressUpdates[divisionFactor]);
+            displayInterfaceHandler.writeUselessBytes();
         }
     }
 
@@ -101,7 +104,7 @@ void RoboBarman::makeDrink()
     waterDispensers.compressorState(ON);
     delay(tillWaterReachesGlass);
 
-    while(waterAmountNotSufficient(lastMessuredWeight)){
+    while (waterAmountNotSufficient(lastMessuredWeight)) {
         lastMessuredWeight = scaleController.getWeight();
     }
 
@@ -109,15 +112,19 @@ void RoboBarman::makeDrink()
 
     waterDispensers.routeState(requiredRoute, OFF);
 
+    displayInterfaceHandler.ardDisplaySerial.print(prepProgressUpdates[divisionFactor]);
+    displayInterfaceHandler.writeUselessBytes();
+
     if (waterSupplyIsEmpty(initWeight, lastMessuredWeight)) {
-        //todo display output: check the water supply
-        Serial.println("Water empty");
     }
+    while(proximitySensorController.objectIsPresent(16)){}
+    closeBar();
 }
 
 void RoboBarman::serveDrink()
 {
-    displayInterfaceHandler.ardDisplaySerial.print(takeDrinkPage); //I don't know why the hell do I have to use this instead
+    displayInterfaceHandler.ardDisplaySerial.print(
+            takeDrinkPage); //I don't know why the hell do I have to use this instead
     displayInterfaceHandler.writeUselessBytes(); //of my function changePage that literary does the same and works till this moment in code
 
     while (proximitySensorController.objectIsPresent(16)) {}
